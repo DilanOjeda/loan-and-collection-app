@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('./dashboard/head.ejs') %> 
+    </head>
+    
+    <body class="sb-nav-fixed">
+
+                    <!-- ========   TOP NAVIGATION    ========-->
+                    
+        <%- include('./dashboard/top-navigation.ejs') %> 
+
+        <div id="layoutSidenav">
+
+                    <!-- ========   RIGHT MENU    ========-->
+            <%- include('./dashboard/right-menu.ejs') %> 
+            
+            <div id="layoutSidenav_content">
+
+                <main>
+                    
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Dashboard</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+
+                        
+
+                        <div class="row">
+                            
+                        </div>
+
+                        
+
+                    </div>
+                    
+                </main>
+                
+                <!-- ========   FOOTER  ======== -->
+                <%- include('./dashboard/footer.ejs'); -%>
+
+                
+
+
+            </div>
+        </div>
+
+        <%- include('./dashboard/footer-scripts.ejs') %> 
+        
+    </body>
+</html>
