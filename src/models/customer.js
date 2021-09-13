@@ -6,7 +6,6 @@ const Customer = connectionDB.define('customer', {
         type: DataTypes.INTEGER(10),
         primaryKey: true,
         autoIncrement: true
-
     },
     ci: {
         type: DataTypes.INTEGER(10),

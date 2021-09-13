@@ -1,9 +1,14 @@
 const { Router} = require('express');
 const router = Router();
 
-const { login, dashboard } = require('../controllers/auth');
+const { displayLogin ,closeSession } = require('../controllers/auth');
+const { authenticateUser } = require('../middlewares/authenticateUser');
 
-router.get('/login', login);
 
+router.get('/login', displayLogin);
+
+router.post('/login', authenticateUser);
+
+router.post('/close-session', closeSession);
 
 module.exports = router;

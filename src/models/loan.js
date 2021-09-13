@@ -3,9 +3,10 @@ const connectionDB = require('../../config/db/connection');
 
 const Loan = connectionDB.define('loan', {
     id: {
-        type: DataTypes.INTEGER(10),
+        type: DataTypes.UUID,
         primaryKey: true,
-        autoIncrement: true
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: false
     },
     creditAmount: {
         type: DataTypes.DECIMAL(10, 2),
