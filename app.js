@@ -14,17 +14,17 @@ require('./config/db/asociations');
 const PORT = process.env.PORT || 3000; 
 
 //  Templating Engine
-app.set('views', path.join(__dirname, './src/views'))
+app.set('views', path.join(__dirname, './src/views'));
 app.set('view engine', 'ejs');
 
 //  Static Files
 app.use(express.static(path.join(__dirname, 'public')))
-
+app.use('/modules', express.static(path.join(__dirname, 'node_modules')));
 // Enable to read data from forms
 app.use(express.urlencoded( {extended: true} ));
 app.use(express.json());
 
-// For Login Session 
+// For Login session 
 app.use(cookieParser());
 
 app.use(session(

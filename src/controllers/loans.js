@@ -2,10 +2,12 @@
 
 
 
-const getLoans = (req, res) => {
-    res.render('loans');
+const displayLoansView = (req, res) => {
+    res.render('loans', {
+        title: 'Prestamos'
+    });
 }
 
 module.exports = {
-    getLoans,
+    displayLoansView,
 }

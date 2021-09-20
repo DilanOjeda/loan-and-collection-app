@@ -1,8 +1,8 @@
 const { Router } = require('express');
 const router = Router();
 
-const { getLoans } = require('../controllers/loans');
+const { displayLoansView } = require('../controllers/loans');
 
-router.get('/', getLoans)
+router.get('/', displayLoansView)
 
 module.exports = router;

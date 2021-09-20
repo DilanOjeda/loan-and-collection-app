@@ -2,6 +2,9 @@
 <html lang="en">
     <head>
         <%- include('./partials/head.ejs') %> 
+
+        <!-- ========   USER CARD MODAL  ======== -->
+        <!-- <link rel="stylesheet" href="/css/user-card-modal.css"> -->
     </head>
     
     <body class="sb-nav-fixed">
@@ -13,7 +16,7 @@
         <div id="layoutSidenav">
 
                     <!-- ========   RIGHT MENU    ========-->
-            <%- include('./partials/right-menu.ejs') %>
+            <%- include('./partials/left-menu.ejs') %>
             
             <div id="layoutSidenav_content">
 
@@ -22,7 +25,7 @@
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">Usuarios</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="/users/dashboard">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="/users/dashboard">Panel de Control</a></li>
                             <li class="breadcrumb-item active">Usuarios</li>
                         </ol>
                         
@@ -30,21 +33,240 @@
                         <div class="row">
                             
                         </div>
-
+                        
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="">
+                                    
+                                    <h5><i class="fas fa-table me-1"></i> Tabla de Usuarios</h5>
+                                </div>
+                                <div>
+                                    <button type="button" id="UserModalBtnId" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userSignUpModal">
+                                        <i class="fas fa-plus-circle"></i>
+                                        Nuevo Usuario
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body" >
+                                <table id="tableIdUsers">
+                                </table>
+                            </div>
+                        </div>
                     </div>
                     
-                </main>
-                
+                </main>                
+
                 <!-- ========   FOOTER  ======== -->
                 <%- include('./partials/footer.ejs'); -%>
-
-                
 
 
             </div>
         </div>
 
+        <!-- ========   MODAL TO SHOW A USER   ======== -->
+        <div class="modal fade" id="userCardInfo"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header bg-dark text-white">
+                        <h5 class="modal-title" id="staticBackdropLabel">Perfil del Usuario</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body p-0">
+                        <div class="card mb-0" style="max-width: 540px;">
+                            <div class="row g-0">
+                                <div class="col-md-4 px-3 pt-2 d-flex align-items-center flex-column align-self-center">
+                                    <img src="/img/woman-img.jpg" class="img-fluid rounded-start" alt="...">
+                                    <h6 class="m-0" id="roleTextId"> </h6>
+                                    <p class="m-0 text-center lh-sm" id="fullnameTextId">Dilan Angel Ojeda Flores</p>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <dl class="row m-0 p-0" >
+                                            <dt class="col-sm-4 p-0">C.I.</dt>      <dd class="col-sm-8 p-0 m-0" id="ciTextId"></dd>
+                                            <dt class="col-sm-4 p-0">Username</dt>  <dd class="col-sm-8 p-0 m-0" id="usernameTextId"></dd>
+                                            <dt class="col-sm-4 p-0">Género</dt>    <dd class="col-sm-8 p-0 m-0" id="genderTextId"></dd>
+                                            <dt class="col-sm-4 p-0">Celular</dt>   <dd class="col-sm-8 p-0 m-0" id="cellPhoneTextId"></dd>
+                                            <dt class="col-sm-4 p-0">Estado</dt>    <dd class="col-sm-8 p-0 m-0" id="enabledTextId"></dd>
+                                            <dt class="col-sm-4 p-0">Dirección</dt> <dd class="col-sm-8 p-0 m-0" id="addressTextId"></dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer bg-dark">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ========   Form modal to sign up a User   ======== -->
+        <div class="modal fade" id="userSignUpModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+
+                    <form class="" id="modalSignUpId">
+                        <div class="modal-header bg-dark text-white">
+                            <h5 class="modal-title" id="staticBackdropLabel">Registrar Usuario</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body p-4">
+
+                            <div id="cardAlerts" class="m-0"></div>
+
+                            <div class="row g-3" id="containerFormInputId">
+                                <div class="col-md-4">
+                                    <label for="inputNames" class="form-label">Nombres</label>
+                                    <input type="text" class="form-control" name="names" id="inputNames" placeholder="Ingresar tus nombres" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputLastNames" class="form-label">Apellidos</label>
+                                    <input type="text" class="form-control" name="lastNames" id="inputLastNames" placeholder="Ingresar tus apellidos" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputCi" class="form-label">Carnet de Identidad</label>
+                                    <input type="text" class="form-control" name="ci" id="inputCi" placeholder="1566999 LP" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputCellPhone" class="form-label">Número de Celular</label>
+                                    <input type="number" class="form-control" name="cellPhone" id="inputCellPhone" placeholder="Ingresar número de celular">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputGender" class="form-label">Género</label>
+                                    <select id="inputGender" name="gender" class="form-select" required>
+                                        <option value="">Seleccionar...</option>
+                                        <option value="Mujer">Mujer</option>
+                                        <option value="Hombre">Hombre</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputRole" class="form-label">Tipo de Usuario</label>
+                                    <select id="inputRole" name="roleId" class="form-select" required>
+                                        <option value="">Seleccionar...</option>
+                                        <% if (roles) { %>
+                                            <% roles.forEach(rol => { %>
+                                                <option value="<%= rol.id %>"> <%= rol.name %> </option>
+                                            <% }) %>
+                                        <% } %>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label for="inputAddress" class="form-label">Domicilio</label>
+                                    <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Ingresar dirección del domicilio">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputUsername" class="form-label">Usuario</label>
+                                    <input type="email" class="form-control" name="username" id="inputUsername" placeholder="micorreo@correo.com" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputPassword" class="form-label">Contraseña</label>
+                                    <input type="password" name="password" class="form-control" id="inputPassword" placeholder="***********" required>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                        <div class="modal-footer flex-row align-items-start">
+                            <button type="button" id="btnCloseSignUpUser" class="btn btn-secondary " data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" id="signUpBtnId" class="btn btn-primary">Registrar Usuario</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========   Form modal to update User   ======== -->
+        <div class="modal fade" id="userUpdateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+
+                    <form class="" id="modalUpdateId">
+                        <label id="inputUserId" hidden></label>
+                        <div class="modal-header bg-dark text-white">
+                            <h5 class="modal-title" id="staticBackdropLabel">Actualizar Usuario</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    
+                        <div class="modal-body p-4">
+
+                            <div id="cardAlertsUpdate" class="m-0"></div>
+
+                            <div class="row g-3" id="containerFormUpdateId">
+                                <div class="col-md-4">
+                                    <label for="inputNamesUpdate" class="form-label">Nombres</label>
+                                    <input type="text" class="form-control" id="inputNamesUpdate" name="names" placeholder="Ingresar tus nombres" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputLastNamesUpdate" class="form-label">Apellidos</label>
+                                    <input type="text" class="form-control" id="inputLastNamesUpdate" name="lastNames" placeholder="Ingresar tus apellidos" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputCiUpdate" class="form-label">Carnet de Identidad</label>
+                                    <input type="text" class="form-control" id="inputCiUpdate" name="ci" placeholder="1566999 LP" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputCellPhoneUpdate" class="form-label">Número de Celular</label>
+                                    <input type="number" class="form-control" id="inputCellPhoneUpdate" name="cellPhone" placeholder="Ingresar número de celular">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="selectGenderUpdate" class="form-label">Género</label>
+                                    <select name="gender" id="selectGenderUpdate" class="form-select" required>
+                                        <option value="">Seleccionar...</option>
+                                        <option value="Mujer">Mujer</option>
+                                        <option value="Hombre">Hombre</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="selectRoleUpdate" class="form-label">Tipo de Usuario</label>
+                                    <select name="roleId" id="selectRoleUpdate" class="form-select" required>
+                                        <option value="">Seleccionar...</option>
+                                        <% if (roles) { %>
+                                            <% roles.forEach(rol => { %>
+                                                <option value="<%= rol.id %>"> <%= rol.name %> </option>
+                                            <% }) %>
+                                        <% } %>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label for="inputAddressUpdate" class="form-label">Domicilio</label>
+                                    <input type="text" class="form-control" id="inputAddressUpdate" name="address" placeholder="Ingresar dirección del domicilio">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputUsernameUpdate" class="form-label">Usuario</label>
+                                    <input type="email" class="form-control" id="inputUsernameUpdate" name="username" placeholder="micorreo@correo.com" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <!-- <label hidden id="userPassword"></label> -->
+                                    <label for="inputPasswordUpdate" class="form-label">Nueva Contraseña</label>
+                                    <input type="password" id="inputPasswordUpdate" name="password" class="form-control" placeholder="Ingresar nueva contraseña">
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                        <div class="modal-footer flex-row align-items-start">
+                            <button type="button" id="btnCloseUpdateUser" class="btn btn-secondary " data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" id="updateBtnId" class="btn btn-primary">Actualizar Usuario</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
         <%- include('./partials/footer-scripts.ejs') %> 
         
     </body>
+
+    
 </html>
+
+
+
+

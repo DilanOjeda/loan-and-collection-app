@@ -1,0 +1,127 @@
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: 0;
+    
+}
+
+.modal-wrapper {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, .4);
+}
+
+.modal-content {
+    width: 90%;
+    max-width: 600px;
+    min-width: 300px;
+    margin: 50px auto;
+    position: relative;
+    background-color: #fefefe;
+    box-shadow: 0 3px 8px 1px rgba(0, 0, 0, .25);
+    border-radius: 5px;
+    
+    animation-name: model-animation;
+    animation-iteration-count: 1;
+    animation-duration: .8s;
+    
+}
+
+@keyframes model-animation {
+    from{
+        top: -300px;
+        opacity: 0;
+    }
+    to {
+        top: 0;
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    padding: .8rem 1rem;
+    color: #fff;
+    background-color: #343A40;
+    border-radius: 5px 5px 0 0;
+    font-size: .1rem;
+}
+
+.modal-body {
+    padding: .8rem .8rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+}
+
+.modal-body-bust {
+    padding: .5rem;
+    text-align: center;
+}
+.modal-body-bust img {
+    width: 200px;
+    height: 200px;
+    padding-bottom: 5px;
+    /* margin-bottom: 5px; */
+    border-radius: 3px;
+    background-size: cover;
+}
+.modal-body-user-info {
+    padding: 1rem;
+}
+.modal-body-user-info p {
+    font-size: 1rem;
+    padding-bottom: 0;
+}
+
+.modal-body-user-info textarea {
+    width: 100%;
+    min-height: 75px;
+    max-height: 75px;
+    border: 1px solid rgba(214, 213, 213, 0.4);
+    overflow: hidden;
+    resize: none;
+}
+
+.modal-body-user-info textarea:focus { 
+    outline: none;
+}
+
+.modal-footer {
+    padding: 1rem 1rem;
+    color: #fff;
+    background-color: #343A40;
+    border-radius: 0 0 5px 5px;
+    font-size: 1rem;
+}
+
+.modal-btn-close {
+    position: relative;
+    float: right;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.modal-btn-close:hover {
+    cursor: pointer;
+    color: #000;
+}
+
+
+@media all and (min-width: 600px) {
+    .modal-content {
+        margin-top: 100px;
+    }
+
+    .modal-body {
+        grid-template-columns: 40% 60%;
+    }
+}

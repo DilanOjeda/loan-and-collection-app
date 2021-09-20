@@ -5,10 +5,10 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
+    "start-nodemon": "nodemon app.js",
     "watch": "webpack --watch --mode development",
-    "dev": "concurrently -n 'app,webpack' \"npm run start \" \"npm run watch \"",
-    "production": "webpack -p",
-    "build": "webpack"
+    "dev": "concurrently -n 'app,webpack' \"npm run start-nodemon \" \"npm run watch \"",
+    "production": "webpack -p"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +17,7 @@
     "@babel/polyfill": "^7.12.1",
     "@babel/runtime": "^7.15.4",
     "axios": "^0.21.4",
+    "bcryptjs": "^2.4.3",
     "concurrently": "^6.2.1",
     "cookie-parser": "^1.4.5",
     "dotenv": "^10.0.0",
@@ -28,6 +29,7 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "sequelize": "^6.6.5",
+    "simple-datatables": "^3.1.2",
     "sweetalert2": "^11.1.5"
   },
   "devDependencies": {

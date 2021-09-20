@@ -2,10 +2,12 @@
 
 
 
-const getCollections = (req, res) => {
-    res.render('collections');
+const displayCollectionsView = (req, res) => {
+    res.render('collections', {
+        title: 'Cobranzas'
+    });
 }
 
 module.exports = {
-    getCollections,
+    displayCollectionsView,
 }

@@ -1,10 +1,12 @@
 
 
 
-const customers = (req, res) => {
-    res.render('customers');
+const displayCustomersView = (req, res) => {
+    res.render('customers', {
+        title: 'Prestatarios'
+    });
 } 
 
 module.exports = {
-    customers
+    displayCustomersView
 }

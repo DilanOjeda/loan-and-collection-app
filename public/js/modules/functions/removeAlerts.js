@@ -7,7 +7,7 @@ export const removeAlert = (event) => {
     event.target.parentElement.remove();
 }
 
-export const removeAllAlerts = () => {
+export const removeAllAlerts = (cardAlerts) => {
     while(cardAlerts.hasChildNodes()) {
         cardAlerts.removeChild(cardAlerts.firstChild);
     }

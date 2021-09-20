@@ -1,8 +1,8 @@
 const { Router } = require('express');
 const router = Router();
 
-const { customers } = require('../controllers/customers');
+const { displayCustomersView } = require('../controllers/customers');
 
-router.get('/', customers);
+router.get('/', displayCustomersView);
 
 module.exports = router;
