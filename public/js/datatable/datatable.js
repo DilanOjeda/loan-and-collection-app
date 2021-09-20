@@ -1,4 +1,9 @@
-import {DataTable} from "simple-datatables";
+window.addEventListener('DOMContentLoaded', event => {
+    // Simple-DataTables
+    // https://github.com/fiduswriter/Simple-DataTables/wiki
 
-const userTable = document.querySelector("#userTable");
-const datatable = new DataTable(userTable);
+    const datatablesSimple = document.getElementById('tableIdCustomers');
+    if (datatablesSimple) {
+        new simpleDatatables.DataTable(datatablesSimple);
+    }
+});
