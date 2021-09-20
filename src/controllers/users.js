@@ -21,7 +21,7 @@ const displaySignUpView = async (req, res) => {
         console.log('ERROE => ', error);
         res.json({
             message: 'Something went wrong'
-        })
+        });
     }
 }
 
@@ -52,9 +52,9 @@ const getUser = async (req, res) => {
                 attributes: ['id', 'name'],
             },
         });
-         res.json({
-             user
-         })
+        res.json({
+            user
+        });
     } catch (error) {
         console.log('ERROR => ', error);
         res.json({

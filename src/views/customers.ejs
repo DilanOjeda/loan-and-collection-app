@@ -57,26 +57,24 @@
                                         </tr>
                                     </thead>
                                     <tbody id="tbodyIdCustomers">
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>
-                                                <button id="${userId}" userId=show_${userId}  type="button" class="btn btn-info btn-sm " data-bs-toggle="modal" data-bs-target="#userCardInfo">Ver</button>
-                                                <button id="${userId}" userId=update_${userId} type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#userUpdateModal">Editar</button>
-                                                <button id="${userId}" userId=delete_${userId} type="button" class="btn btn-danger btn-sm">Eliminar</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Garrett Winters</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>63</td>
-                                            <td>2011/07/25</td>
-                                            <td>$170,750</td>
-                                        </tr>
+                                        <% if (customers) { %>
+                                            <% customers.forEach(customer => { %>
+                                                </tr>
+                                                    <td><%= customer.names %></td>
+                                                    <td><%= customer.lastNames %></td>
+                                                    <td><%= customer.ci %></td>
+                                                    <td><%= customer.cellPhone %></td>
+                                                    <td><%= customer.withCredit? 'Con Credito' : 'Sin Credito' %></td>
+                                                    <td>
+                                                        <button id="<%= customer.id %>" customerid="showCustomer_<%= customer.id %>" type="button" class="btn btn-info btn-sm " data-bs-toggle="modal" data-bs-target="#customerCardInfo">Ver</button>
+                                                        <button id="<%= customer.id %>" customerid="updateCustomer_<%= customer.id %>" type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#CustomerUpdateModal">Editar</button>
+                                                        <button id="<%= customer.id %>" customerid="deleteCustomer_<%= customer.id %>" type="button" class="btn btn-danger btn-sm">Eliminar</button>
+        
+                                                    </td>
+                                                </tr>
+                                            <% }) %>
+                                        <% } %>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -91,6 +89,46 @@
                 <!-- ========   DataTable  ======== --> 
                 <!-- <script src="/js/datatable/datatable.js"></script> -->
                 
+            </div>
+        </div>
+
+        <!-- ========   Modal to show a customer info   ======== -->
+        <div class="modal fade" id="customerCardInfo"  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header bg-dark text-white">
+                        <h5 class="modal-title" id="staticBackdropLabel">Perfil del Cliente</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body p-0">
+                        <div class="card mb-0" style="max-width: 540px;">
+                            <div class="row g-0">
+                                <div class="col-md-4 px-3 pt-2 d-flex align-items-center flex-column align-self-center">
+                                    <img src="/img/users/user.png" class="img-fluid rounded-start" alt="...">
+                                    <h6 class="m-0" id="txtIdRole"> Prestatario </h6>
+                                    <p class="m-0 text-center lh-sm" id="txtIdCustomerFullname">No name</p>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <dl class="row m-0 p-0" >
+                                            <dt class="col-sm-4 p-0">C.I.</dt>      <dd class="col-sm-8 p-0 m-0" id="txtIdCustomerCi"></dd>
+                                            <dt class="col-sm-4 p-0">Género</dt>    <dd class="col-sm-8 p-0 m-0" id="txtIdCustomerGnerder"></dd>
+                                            <dt class="col-sm-4 p-0">Celular</dt>   <dd class="col-sm-8 p-0 m-0" id="txtIdCustomerCellPhone"></dd>
+                                            <dt class="col-sm-4 p-0">Estado</dt>    <dd class="col-sm-8 p-0 m-0" id="txtIdCustomerWithCredit"></dd>
+                                            <dt class="col-sm-4 p-0">Dirección</dt> <dd class="col-sm-8 p-0 m-0" id="txtIdCustomerAddress"></dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer bg-dark">
+
+                    </div>
+                </div>
             </div>
         </div>
 
