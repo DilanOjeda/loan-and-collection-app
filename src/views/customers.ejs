@@ -38,17 +38,18 @@
                                     <h5><i class="fas fa-table me-1"></i> Tabla de Clientes</h5>
                                 </div>
                                 <div>
-                                    <button type="button" id="UserModalBtnId" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userSignUpModal">
+                                    <button type="button" id="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalIdSignUpCustomer">
                                         <i class="fas fa-plus-circle"></i>
                                         Nuevo Cliente
                                     </button>
                                 </div>
                             </div>
                             <div class="card-body" >
-                                <table id="tableIdCustomers">
-                                    <thead>
+                                <table id="tableIdCustomers" class="table table-striped">
+                                    <thead class="table-dark">
                                         <tr>
-                                            <th>Nombre</th>
+                                            <th>#</th>
+                                            <th>Nombres</th>
                                             <th>Apellidos</th>
                                             <th>C.I.</th>
                                             <th>Celular</th>
@@ -58,18 +59,24 @@
                                     </thead>
                                     <tbody id="tbodyIdCustomers">
                                         <% if (customers) { %>
-                                            <% customers.forEach(customer => { %>
+                                            <% customers.forEach((customer, i) => { %>
                                                 </tr>
+                                                    <td><%= ++i %></td>
                                                     <td><%= customer.names %></td>
                                                     <td><%= customer.lastNames %></td>
                                                     <td><%= customer.ci %></td>
                                                     <td><%= customer.cellPhone %></td>
-                                                    <td><%= customer.withCredit? 'Con Credito' : 'Sin Credito' %></td>
                                                     <td>
-                                                        <button id="<%= customer.id %>" customerid="showCustomer_<%= customer.id %>" type="button" class="btn btn-info btn-sm " data-bs-toggle="modal" data-bs-target="#customerCardInfo">Ver</button>
-                                                        <button id="<%= customer.id %>" customerid="updateCustomer_<%= customer.id %>" type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#CustomerUpdateModal">Editar</button>
-                                                        <button id="<%= customer.id %>" customerid="deleteCustomer_<%= customer.id %>" type="button" class="btn btn-danger btn-sm">Eliminar</button>
-        
+                                                        <div class="btn-group d-flex justify-content-center align-items-center">
+                                                            <button type="button" class="btn <%= customer.withCredit? 'btn-outline-danger' : 'btn-outline-success' %> btn-sm" disabled><%= customer.withCredit? 'Con Credito' : 'Sin Credito' %></button>
+                                                        </div>
+                                                    </td> 
+                                                    <td>
+                                                        <div class="btn-group d-flex justify-content-center align-items-center">
+                                                            <button id="<%= customer.id %>" customerid="showCustomer_<%= customer.id %>" type="button" class="btn btn-info btn-sm " data-bs-toggle="modal" data-bs-target="#customerCardInfo">Ver</button>
+                                                            <button id="<%= customer.id %>" customerid="updateCustomer_<%= customer.id %>" type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalIdUpdateCustomer">Editar</button>
+                                                            <button id="<%= customer.id %>" customerid="deleteCustomer_<%= customer.id %>" type="button" class="btn btn-danger btn-sm">Eliminar</button>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             <% }) %>
@@ -89,6 +96,64 @@
                 <!-- ========   DataTable  ======== --> 
                 <!-- <script src="/js/datatable/datatable.js"></script> -->
                 
+            </div>
+        </div>
+
+        <!-- ========   Form modal to sign up a Customer   ======== -->
+        <div class="modal fade" id="modalIdSignUpCustomer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+
+                    <form class="" id="formIdSignUpCustomer">
+                        <div class="modal-header bg-dark text-white">
+                            <h5 class="modal-title" id="staticBackdropLabel">Registrar Usuario</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body p-4">
+
+                            <div id="cardAlerts" class="m-0"></div>
+
+                            <div class="row g-3" id="containerFormInputId">
+                                <div class="col-md-4">
+                                    <label for="inputNames" class="form-label">Nombres</label>
+                                    <input type="text" class="form-control" name="names" id="inputNames" placeholder="Ingresar tus nombres" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputLastNames" class="form-label">Apellidos</label>
+                                    <input type="text" class="form-control" name="lastNames" id="inputLastNames" placeholder="Ingresar tus apellidos" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputCi" class="form-label">Carnet de Identidad</label>
+                                    <input type="text" class="form-control" name="ci" id="inputCi" placeholder="1566999 LP" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputCellPhone" class="form-label">Número de Celular</label>
+                                    <input type="number" class="form-control" name="cellPhone" id="inputCellPhone" placeholder="Ingresar número de celular">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputGender" class="form-label">Género</label>
+                                    <select id="inputGender" name="gender" class="form-select" required>
+                                        <option value="">Seleccionar...</option>
+                                        <option value="Mujer">Mujer</option>
+                                        <option value="Hombre">Hombre</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label for="inputAddress" class="form-label">Domicilio</label>
+                                    <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Ingresar dirección del domicilio">
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                        <div class="modal-footer flex-row align-items-start">
+                            <button type="button" id="btnIdCloseSignUpCustomer" class="btn btn-secondary " data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" id="btnIdSignUpCustomer" class="btn btn-primary">Registrar Usuario</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
@@ -128,6 +193,64 @@
                     <div class="modal-footer bg-dark">
 
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========   Form modal to update Customer   ======== -->
+        <div class="modal fade" id="modalIdUpdateCustomer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+
+                    <form class="" id="formIdUpdateCustomer">
+                        <label id="txtIdCustomerId" hidden></label>
+                        <div class="modal-header bg-dark text-white">
+                            <h5 class="modal-title" id="staticBackdropLabel">Actualizar Clientes</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    
+                        <div class="modal-body p-4">
+
+                            <div id="cardAlertsUpdate" class="m-0"></div>
+
+                            <div class="row g-3" id="containerFormUpdateId">
+                                <div class="col-md-4">
+                                    <label for="inputIdUpdateCustomerNames" class="form-label">Nombres</label>
+                                    <input type="text" class="form-control" id="inputIdUpdateCustomerNames" name="names" placeholder="Ingresar tus nombres" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputIdUpdateCustomerLastNames" class="form-label">Apellidos</label>
+                                    <input type="text" class="form-control" id="inputIdUpdateCustomerLastNames" name="lastNames" placeholder="Ingresar tus apellidos" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputIdUpdateCustomerCi" class="form-label">Carnet de Identidad</label>
+                                    <input type="text" class="form-control" id="inputIdUpdateCustomerCi" name="ci" placeholder="1566999 LP" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="inputIdUpdateCustomerCellPhone" class="form-label">Número de Celular</label>
+                                    <input type="number" class="form-control" id="inputIdUpdateCustomerCellPhone" name="cellPhone" placeholder="Ingresar número de celular">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="selectIdUpdateCustomerGender" class="form-label">Género</label>
+                                    <select name="gender" id="selectIdUpdateCustomerGender" class="form-select" required>
+                                        <option value="">Seleccionar...</option>
+                                        <option value="Mujer">Mujer</option>
+                                        <option value="Hombre">Hombre</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label for="inputIdUpdateCustomerAddress" class="form-label">Domicilio</label>
+                                    <input type="text" class="form-control" id="inputIdUpdateCustomerAddress" name="address" placeholder="Ingresar dirección del domicilio">
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                        <div class="modal-footer flex-row align-items-start">
+                            <button type="button" id="btnIdCloseUpdateCustomer" class="btn btn-secondary " data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" id="btnIdUpdateCustomer" class="btn btn-primary">Actualizar Usuario</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

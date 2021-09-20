@@ -1,13 +1,8 @@
 const { check } = require('express-validator');
 
 const validateFields = require('../helpers/vaidateFields');
-const { 
-    validateRole, 
-    validateGender, 
-    validateCi, 
-    validateUsername, 
-    validateUsernameToUpdate, 
-    validateCiToUpdate } = require('../helpers/validatorsDbUser');
+const { validateCustomerCi, validateCustomerCiToUpdate } = require('../helpers/validatorsDbCustomer');
+const { validateGender } = require('../helpers/validatorsDbUser');
 
 
 const validateUser = [
@@ -31,55 +26,35 @@ const validateUser = [
     .trim()
     .not().isEmpty().withMessage('El campo del género no debe ir vacío.').bail()
     .custom(validateGender),
-    check('roleId')
-    .not().isEmpty().withMessage('El tipo de usuario no debe ir vacío.').bail()
-    .custom(validateRole),
     validateFields
 ];
 
-let validateCreateUser = [
+let validateCreateCustomer = [
     check('ci')
     .trim()
     .toUpperCase()
     .not().isEmpty().withMessage('El campo del C.I. no debe ir vacío: 4198081 LP.').bail()
     .isLength({min:5}).withMessage('El número de C.I. debe tener más de 5 caracteres.').bail()
     .isAlphanumeric('es-ES', {ignore: ' '}).withMessage('El número C.I. debe incluir unicamente letras y números.').bail()
-    .custom(validateCi),
-    check('username')
-    .trim()
-    .not().isEmpty().withMessage('El campo del correo electrónico no debe ir vacío.').bail()
-    .isEmail().withMessage('El correo electrónico debe tener un formato valido: micorreo@correo.com.').bail()
-    .custom(validateUsername),
-    check('password')
-    .not().isEmpty().withMessage('El campo de la contraseña no debe ir vacío.').bail()
-    .isLength({min:5}).withMessage('La contraseña debe tener más de 5 caracteres.'),
+    .custom(validateCustomerCi),
 ];
 
 
-let validateUpdateUser = [
-    check('username')
-    .trim()
-    .not().isEmpty().withMessage('El campo del correo electrónico no debe ir vacío.').bail()
-    .isEmail().withMessage('El correo electrónico debe tener un formato valido: micorreo@correo.com.').bail()
-    .custom(validateUsernameToUpdate),
+let validateUpdateCustomer = [
     check('ci')
     .trim()
     .toUpperCase()
     .not().isEmpty().withMessage('El campo del C.I. no debe ir vacío: 4198081 LP.').bail()
     .isLength({min:5}).withMessage('El número de C.I. debe tener más de 5 caracteres.').bail()
     .isAlphanumeric('es-ES', {ignore: ' '}).withMessage('El número C.I. debe incluir unicamente letras y números.').bail()
-    .custom(validateCiToUpdate),
-    check('password')
-    .optional( {checkFalsy : true} )
-    .not().isEmpty().withMessage('El campo de la contraseña no debe ir vacío.').bail()
-    .isLength({min:5}).withMessage('La contraseña debe tener más de 5 caracteres.')
+    .custom(validateCustomerCiToUpdate),
 ];
 
-validateUpdateUser = validateUpdateUser.concat(validateUser);
-validateCreateUser = validateCreateUser.concat(validateUser);
+validateUpdateCustomer = validateUpdateCustomer.concat(validateUser);
+validateCreateCustomer = validateCreateCustomer.concat(validateUser);
 
 module.exports = {
-    validateCreateUser,
-    validateUpdateUser
+    validateCreateCustomer,
+    validateUpdateCustomer
 }
 

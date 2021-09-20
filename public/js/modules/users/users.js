@@ -183,7 +183,6 @@ const showUserToUpdate = async (userId) => {
 /**
  * Query to Update a User from DB
  */
-
 const modalUpdateId = document.getElementById('modalUpdateId');
 if (modalUpdateId) {
     modalUpdateId.addEventListener('submit', async function(event) {

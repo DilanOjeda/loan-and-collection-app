@@ -1,6 +1,5 @@
 const { Op } = require('sequelize');
 const  { Role, User }  = require('../models');
-const bcrypt = require('bcryptjs');
 
 const validateRole = async (roleId = '') => {
     const isRole = await Role.findByPk(roleId);
@@ -65,34 +64,8 @@ const validateCiToUpdate = async (ci, {req}) => {
     }
 }
 
-const validatePasswordToUpdate = async (password, {req}) => {
-    const {id} = req.body;
-    const user = await User.findOne({
-        where: {id:id}
-    });
 
-    if (password) {
-        const salt = bcrypt.genSaltSync(10);
-        const newPassword = bcrypt.hashSync(password, salt);
-        req.body.password = newPassword;
-        console.log('New password => ', newPassword);
-    }else {
-        req.body.password = user.password;
-        console.log('the same pass => ', req.body.password);
-    }
-    
-    // console.log('genSalt ===>', user.password.genSalt());
-    // console.log('auxPassword ===>', newPassword);
-    // console.log('nameDB ===>', user.names);
-    // console.log('passwordDB ===>', user.password);
-    // console.log('password ===>', typeof password);
-    // let isEqualPassword;
-    // isEqualPassword = bcrypt.compareSync(password, user.password);
-    // console.log('isEqualPassword => ', isEqualPassword);
-    // if (bcrypt.compareSync(password, user.password)) {
-    //     throw new Error(`La contraseña coincide.`);
-    // }
-}
+
 /*
 SELECT *
 FROM user
@@ -106,6 +79,4 @@ module.exports = {
     validateUsername,
     validateUsernameToUpdate,
     validateCiToUpdate,
-    validatePasswordToUpdate
-    
 }
