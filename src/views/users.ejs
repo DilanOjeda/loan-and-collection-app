@@ -47,9 +47,54 @@
                                     </button>
                                 </div>
                             </div>
+
+                            <!-- btn-outline-danger -->
                             <div class="card-body" >
                                 <table id="tableIdUsers">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Nombres</th>
+                                            <th>Apellidos</th>
+                                            <th>C.I.</th>
+                                            <th>Usuario</th>
+                                            <th>Tipo de U.</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyIdCustomers">
+                                        <% if (users) { %>
+                                            <% users.forEach((user, i) => { %>
+                                                </tr>
+                                                    <th scope="row"><%= ++i %></th>
+                                                    <td><%= user.names %></td>
+                                                    <td><%= user.lastNames %></td>
+                                                    <td><%= user.ci %></td>
+                                                    <td><%= user.username %></td>
+                                                    <td><%= user.role.name %></td>
+                                                    <td>
+                                                        <div class="btn-group d-flex justify-content-center align-items-center">
+                                                            <button id="<%= user.id %>" userId="enabled_<%= user.id %>" type="button" class="btn <%= !user.enabled? 'btn-outline-danger' : 'btn-outline-success' %> btn-sm" >
+                                                                <span class="spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                <%= user.enabled? 'Habilitado' : 'Deshabilitado' %>
+                                                            </button>
+                                                            
+                                                        </div>
+                                                    </td> 
+                                                    <td>
+                                                        <div class="btn-group d-flex justify-content-center align-items-center">
+                                                            <button id="<%= user.id %>" userId="show_<%= user.id %>" type="button" class="btn btn-info btn-sm " data-bs-toggle="modal" data-bs-target="#userCardInfo">Ver</button>
+                                                            <button id="<%= user.id %>" userId="update_<%= user.id %>" type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#userUpdateModal">Editar</button>
+                                                            <button id="<%= user.id %>" userId="delete_<%= user.id %>" type="button" class="btn btn-danger btn-sm">Eliminar</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            <% }) %>
+                                        <% } %>
+                                    </tbody>
                                 </table>
+
                             </div>
                         </div>
                     </div>

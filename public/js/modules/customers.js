@@ -9,7 +9,7 @@ import {removeAllAlerts} from './functions/removeAlerts';
 document.addEventListener('DOMContentLoaded', function () {
     const tableIdCustomers = document.querySelector("#tableIdCustomers");
     if(tableIdCustomers){
-        createSimpleDataTable(tableIdCustomers);
+        createSimpleDataTable(tableIdCustomers, 'Clientes');
         tableIdCustomers.addEventListener('click', function(event) {
             if (event.target.getAttribute('customerId')) {
                 const [btnAction, customerId] = event.target.getAttribute('customerid').split('_');

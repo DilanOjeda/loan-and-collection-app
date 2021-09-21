@@ -18,7 +18,7 @@ const displaySignUpView = async (req, res) => {
             roles
         });
     } catch (error) {
-        console.log('ERROE => ', error);
+        console.log('ERROR => ', error);
         res.json({
             message: 'Something went wrong'
         });
@@ -27,12 +27,34 @@ const displaySignUpView = async (req, res) => {
 
 const displayUsersView = async (req, res) => {
     try {
-        const roles = await Role.findAll();
+        const queryUsers = {
+            attributes: ['id', 'names', 'lastNames', 'ci', 'username', 'cellPhone', 'enabled'],
+            where: { deletedStatus: false },
+            order: [
+                ['updatedAt', 'DESC'],
+            ],
+            include: {
+                model: Role,
+                attributes: ['name'],
+                where: {
+                    name: {
+                        [Op.ne]: 'admin'
+                    }
+                }
+            },
+        };
+        const [ roles, users ] = await Promise.all([
+            Role.findAll(), 
+            User.findAll(queryUsers)
+        ]);
+
         res.render('users', {
         title: 'Usuarios',
+        users,
         roles
     });
     } catch (error) {
+        console.log('ERROR => ', error)
         res.json({
             msg: 'Algo salió mal al momento de cargar la página.'
         });
@@ -169,6 +191,30 @@ const deleteUser = async (req, res) => {
     }
 };
 
+const enableOrDisableUser = async (req, res) => {
+    try {
+        const  {id} = req.params;
+        const {enabled} = req.body;
+        const user = await User.update({enabled:enabled }, {
+            where: {id:id}
+        });
+        if (!user[0]) {
+            return res.json({
+                user,
+                msg: 'El usuario No ha sido Habilitado. Inténtalo de nuevo.'
+            });
+        }
+        res.json({
+            user,
+            msg: 'El usuario ha sido Deshabilitado satisfactoriamente.'
+        });
+    } catch (error) {
+        console.log('ERROR => ', error);
+        res.status(500).json({
+            msg: 'Se produjo un error y no se pudo completar su solicitud. Inténtalo de nuevo.'
+        });
+    }
+} 
 
 module.exports = {
     displayDashboardView,
@@ -178,5 +224,6 @@ module.exports = {
     getUsers,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    enableOrDisableUser
 }

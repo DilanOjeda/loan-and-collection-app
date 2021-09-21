@@ -1,16 +1,15 @@
 import axios from 'axios';
 import Swal  from 'sweetalert2';
 
-import {createDataTable as dataTableUsers, destroyTable} from '../functions/createDataTable';
-import {renderMsgModal} from '../functions/renderMsgModal';
-import {createDivAlerts} from '../functions/createDivAlerts';
-import {removeAllAlerts} from '../functions/removeAlerts';
+import {createSimpleDataTable} from './functions/createDataTable';
+import {renderMsgModal} from './functions/renderMsgModal';
+import {createDivAlerts} from './functions/createDivAlerts';
+import {removeAllAlerts} from './functions/removeAlerts';
 
 document.addEventListener('DOMContentLoaded', function () {
     const tableIdUsers = document.querySelector("#tableIdUsers");
     if(tableIdUsers){
-        loadUsersTable(tableIdUsers);
-
+        createSimpleDataTable(tableIdUsers, 'Usuarios');
         tableIdUsers.addEventListener('click', function(event) {
             if (event.target.getAttribute('userId')) {
                 const [btnAction, userId] = event.target.getAttribute('userId').split('_');
@@ -25,50 +24,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     case 'delete':
                         deleteOneUser(userId);
                         break;
+                    case 'enabled':
+                        console.log('enabled --->', userId);
+                        enableOrDisableUser(userId);
+                        break;
                 }
             }
         });
     }
 
 });
-
-/**
- *  Query to get users from DB to load a table
- */
-const loadUsersTable = async (tableIdUsers) => {
-    try {
-        const url = `${location.origin}/users`;
-        const response = await axios.get(url);
-        const { users } = response.data;
-        if(users) {
-            const headings = ["#", "Nombres", "Apellidos", "C.I.", "Usuario", "Celular", "Tipo de U.", "Estado", "Acciones"];
-            const usersData = [];
-            users.forEach((user, i) => {
-                user.enabled = user.enabled ? 'Disponible' : 'No Disponible';
-                user.cellPhone = user.cellPhone === 0 ? '' : user.cellPhone;
-                user = Object.values(user);
-                const userId = user.shift();
-                user.splice(0, 0, ++i)
-                const roleRemoved = user.pop();
-                user.splice(user.length-1 , 0, roleRemoved.name)
-                user.push(`
-                <button id="${userId}" userId=show_${userId}  type="button" class="btn btn-info btn-sm " data-bs-toggle="modal" data-bs-target="#userCardInfo">Ver</button>
-                <button id="${userId}" userId=update_${userId} type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#userUpdateModal">Editar</button>
-                <button id="${userId}" userId=delete_${userId} type="button" class="btn btn-danger btn-sm">Eliminar</button>`
-                );
-                usersData.push(user);
-            });
-            let usersDataTable = {
-                "headings": headings,
-                "data": usersData
-            }
-            dataTableUsers(tableIdUsers, usersDataTable, 'Usuarios');
-        }
-    } catch (error) {
-        console.log('ERROR => ', error);
-        renderMsgModal('error', 'Error', `${error.response.status}: ${error.response.statusText}`)
-    }
-}
 
 /**
  * Query to sign up a new User 
@@ -114,9 +79,9 @@ const showOneUser = async (userId) => {
             document.getElementById('ciTextId').textContent = user.ci;
             document.getElementById('usernameTextId').textContent = user.username;
             document.getElementById('genderTextId').textContent = user.gender;
-            document.getElementById('cellPhoneTextId').textContent = user.cellPhone;
+            document.getElementById('cellPhoneTextId').textContent = user.cellPhone? user.cellPhone : '_____________';
             document.getElementById('enabledTextId').textContent = user.enabled ? 'Disponible' : 'No Disponible';
-            document.getElementById('addressTextId').textContent = user.address ? user.address : 'Sin Dirección';
+            document.getElementById('addressTextId').textContent = user.address ? user.address : '_____________';
         }
     } catch (error) {
         console.log('ERROR => ', error);
@@ -198,18 +163,59 @@ if (modalUpdateId) {
             const response = await axios.put(url, userData);
             console.log(response.data);
             const cardAlerts = document.getElementById('cardAlertsUpdate');
-            if (response.data.errors) {
-                const errors = response.data.errors;
+            const errors = response.data.errors;
+            if (errors) {
                 return createDivAlerts(errors, cardAlerts);
             }
             removeAllAlerts(cardAlerts);
             modalUpdateId.reset();
             btnCloseUpdateUser.click();
-            renderMsgModal('success', '¡Usuario Actualizado!', response.data.msg);
+            renderMsgModal('success', '¡Usuario Actualizado!', response.data.msg, false, 1000);
+            setInterval(() => { location.reload() }, 1000);
         } catch (error) {
             console.log('ERROR => ', error);
             renderMsgModal('error', 'Error', `${error.response.status}: ${error.response.statusText}`);
         }
 
     });
+}
+
+
+const enableOrDisableUser = async (userId) => {
+    if (userId) {
+        const btnEnableUser = document.getElementById(userId);
+        btnEnableUser.setAttribute('disabled', true);
+        const btnSpinner = btnEnableUser.firstElementChild;
+        btnSpinner.classList.add('spinner-border');
+        let buttonEnable = {};
+        if (btnEnableUser.textContent.trim() === 'Habilitado') {
+            buttonEnable.status = false;
+            buttonEnable.className = 'btn-outline-danger';
+            buttonEnable.btnText = 'Deshabilitado';
+        }
+        else if(btnEnableUser.textContent.trim() === 'Deshabilitado') {
+            buttonEnable.status = true;
+            buttonEnable.className = 'btn-outline-success';
+            buttonEnable.btnText = 'Habilitado';
+        }
+        else return renderMsgModal('success', ' No existe el boton seleccionando.', response.data.msg);
+        try {
+            const url = `${location.origin}/users/enable-user/${userId}`;
+            const response = await axios.put(url, {enabled:buttonEnable.status});
+            const {user} = response.data;
+            if (!user[0]) {
+                return renderMsgModal('success', ' No existe el boton seleccionando.', response.data.msg);
+            }
+            btnSpinner.classList.remove('spinner-border');
+            btnEnableUser.className = `btn ${buttonEnable.className} btn-sm`;
+            const spanSpinner = document.createElement('span');
+            spanSpinner.classList.add('spinner-border-sm');
+            btnEnableUser.textContent = buttonEnable.btnText;
+            btnEnableUser.appendChild(spanSpinner);
+            btnEnableUser.removeAttribute('disabled');
+        } catch (error) {
+            console.log('ERROR => ', error);
+            renderMsgModal('error', 'Error', `${error.response.status}: ${error.response.statusText}`);
+        }
+    }
 }

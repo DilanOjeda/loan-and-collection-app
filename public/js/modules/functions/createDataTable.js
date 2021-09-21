@@ -17,7 +17,7 @@ export const createDataTable = (tableId, usersDataTable, moduleName) =>{
     });
 }
 
-export const createSimpleDataTable = (tableId, moduleName='Clientes') => {
+export const createSimpleDataTable = (tableId, moduleName) => {
     const dataTable = new DataTable(tableId, {
         labels: {
             placeholder: "Buscar...",
