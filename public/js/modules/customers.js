@@ -1,6 +1,5 @@
 import axios from 'axios';
 import Swal  from 'sweetalert2';
-import {DataTable} from "simple-datatables";
 
 import {createSimpleDataTable} from './functions/createDataTable';
 import {renderMsgModal} from './functions/renderMsgModal';
@@ -17,14 +16,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 switch (btnAction) {
                     case 'showCustomer':
                         showOneCustomer(customerId)
-                        console.log('showCustomer --->', customerId);
                         break;
                     case 'updateCustomer':
-                        console.log('updateCustomer --->', customerId);
                         showCustomerToUpdate(customerId);
                         break;
                     case 'deleteCustomer':
-                        console.log('deleteCustomer --->', customerId);
                         deleteOneCustomer(customerId);
                         break;
                 }
@@ -120,14 +116,12 @@ document.addEventListener('DOMContentLoaded', function () {
          event.preventDefault();
          const customerUpdateFormData = new FormData(event.currentTarget);
          const customerData = Object.fromEntries(customerUpdateFormData);
-         console.log('customerData', customerData);
          const customerId = document.getElementById('txtIdCustomerId').textContent;
          const btnIdCloseUpdateCustomer = document.getElementById('btnIdCloseUpdateCustomer');
          customerData.id = customerId;
          try {
              const url = `${location.origin}/customers/${customerId}`;
              const response = await axios.put(url, customerData);
-             console.log(response.data);
              const cardAlerts = document.getElementById('cardAlertsUpdate');
              const errors = response.data.errors;
              if (errors) {
