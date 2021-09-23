@@ -22,13 +22,58 @@
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">Prestamos</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="/users/dashboard">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="/users/dashboard">Panel de Control</a></li>
                             <li class="breadcrumb-item active">Prestamos</li>
                         </ol>
                         
 
                         <div class="row">
                             
+                        </div>
+
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="">
+                                    
+                                    <h5><i class="fas fa-table me-1"></i> Lista de Prestamos</h5>
+                                </div>
+                                <div>
+                                    <a href="/loans/create-loan" >
+                                        <button type="button" class="btn btn-primary">
+                                            <i class="fas fa-plus-circle"></i>
+                                            Nuevo Prestamo
+                                        </button>
+                                    </a>
+                                    
+                                </div>
+                            </div>
+                            <div class="card-body" >
+                                <table id="tableIdLoans" class="table table-striped">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th># Prest.</th>
+                                            <th>Cliente</th>
+                                            <th>Monto Crédito</th>
+                                            <th>Monto Interés</th>
+                                            <th>Monto Total</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Daniela Fernanda Ortiz Caberera</td>
+                                            <td>15065</td>
+                                            <td>3</td>
+                                            <td>21513</td>
+                                            <td>Pendiente</td>
+                                            <td>VER PAGOS</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
                     </div>

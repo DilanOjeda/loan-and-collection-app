@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('./partials/head.ejs') %> 
+        <link rel="stylesheet" href="/modules/flatpickr/dist/flatpickr.min.css">
+        <link rel="stylesheet" href="/modules/choices.js/public/assets/styles/choices.min.css">
+        <link rel="stylesheet" href="/modules/flatpickr/dist/themes/material_red.css">
+    </head>
+    
+    <body class="sb-nav-fixed">
+
+                    <!-- ========   TOP NAVIGATION    ========-->
+                    
+        <%- include('./partials/top-navigation.ejs') %> 
+
+        <div id="layoutSidenav">
+
+                    <!-- ========   RIGHT MENU    ========-->
+            <%- include('./partials/left-menu.ejs') %>
+            
+            <div id="layoutSidenav_content">
+
+                <main>
+                    
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Prestamos</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="/users/dashboard">Panel de Control</a></li>
+                            <li class="breadcrumb-item active"><a href="/loans">Prestamos</a></li>
+                            <li class="breadcrumb-item active">Crear Nuevo Prestamo</li>
+                        </ol>
+                        
+
+                        <div class="row">
+                            
+                        </div>
+
+                        <div class="card mb-5">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="">
+                                    <h5><i class="fas fa-table me-1"></i>Crear Nuevo Prestamo</h5>
+                                </div>
+                                <div>
+                                      
+                                </div>
+                            </div>
+                            <div class="card-body" >
+                                <form class="row g-3 p-3 pt-0">
+                                    <div class="col-md-10">
+                                        <label for="selectIdCustomers" class="form-label">Selccionar un Cliente</label>
+                                        <select id="selectIdCustomers" name="customerId" class="form-select">
+                                            <option value="">Seleccionar...</option>
+                                            <% if (customers) { %>
+                                                <% customers.forEach(customer => { %>
+                                                    <option value="<%= customer.id %>"> <%= customer.names + ' ' + customer.lastNames%>  </option>
+                                                <% }) %>
+                                            <% } %>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="inputCreditAmount" class="form-label">Monto del Prestamo</label>
+                                        <input type="number" class="form-control" name="creditAmount" id="inputCreditAmount" placeholder="Monto del prestamo" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="inputInterestRate" class="form-label">Interes %</label>
+                                        <input type="number" class="form-control" name="interestRate" id="inputInterestRate" placeholder="Interest del prestamo" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="inputNumberFees" class="form-label">Número de Cuotas</label>
+                                        <input type="number" class="form-control" name="numberFees" id="inputNumberFees" placeholder="Número de cutos del prestamo" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="inputModality" class="form-label">Modalidad de Pago</label>
+                                        <select id="inputModality" name="modality" class="form-select" required>
+                                            <option value="">Seleccionar...</option>
+                                            <option value="diario">Diario</option>
+                                            <option value="semanal">Semanal</option>
+                                            <option value="quincenal">Quincenal</option>
+                                            <option value="mensual">Mensual</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="input" class="form-label">Fecha de Emisión</label>
+                                        <input type="number" class="form-control" name="modality" id="input" placeholder="Ingresar número de celular">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="row justify-content-md-center align-self-md-center" >
+                                            <label for="input" class="form-label text-center">Fecha de Cuotas de Pago</label>
+                                            <input  type="date" class="form-control"  name="" id="inputDatesFees" placeholder="Seleccione las fechas...">
+                                        </div>
+                                    </div>
+
+                                    <div class="card p-4">
+                                        <div class="row justify-content-md-center" >
+                                            <div class="col-md-12 mb-3 "> 
+                                                <button type="button" id="btnIdCalculate" class="btn btn-success">Calcular</button>
+                                            </div>
+                                            
+                                            <div class="col-md-4">
+                                                <label for="inputFeeAmount" class="form-label">Valor por Cuota</label>
+                                                <input type="number" class="form-control" name="feeAmount" id="inputFeeAmount" placeholder="Valor por Cuota" disabled required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="inputInterestAmount" class="form-label">Valor por Interes</label>
+                                                <input type="number" class="form-control" name="interestAmount" id="inputInterestAmount" placeholder="Valor por Interes" disabled required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="inputTotalAmount" class="form-label">Monto Total</label>
+                                                <input type="number" class="form-control" name="totalAmount" id="inputTotalAmount" placeholder="Monto Total" disabled required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <div class="col-12 d-flex justify-content-center align-items-center gap-2 btn-group">
+                                        <button type="button" class="btn btn-secondary ">Cancelar</button>
+                                        <button type="submit" class="btn btn-primary ">Registrar Prestamo</button>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                </main>
+                
+                <!-- ========   FOOTER  ======== -->
+                <%- include('./partials/footer.ejs'); -%>
+
+                
+
+
+            </div>
+        </div>
+
+        <%- include('./partials/footer-scripts.ejs') %> 
+        
+    </body>
+</html>
