@@ -21,19 +21,17 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')))
 app.use('/modules', express.static(path.join(__dirname, 'node_modules')));
 // Enable to read data from forms
-app.use(express.urlencoded( {extended: true} ));
+app.use(express.urlencoded( {extended: false} ));
 app.use(express.json());
 
 // For Login session 
 app.use(cookieParser());
 
-app.use(session(
-    {
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: false 
-    }
-));
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false 
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -41,7 +39,7 @@ app.use(passport.session());
 app.use('/', require('./src/routes'));
 
 //  Connection to the database
-connectionDB.sync( { force: false} )
+connectionDB.sync( { force: true} )
     .then( () => {
         console.log('Connection has been established successfully.')
     })

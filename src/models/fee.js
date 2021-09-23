@@ -1,34 +1,30 @@
-const { DataTypes } = require('sequelize');
+const {DataTypes} = require('sequelize');
 const connectionDB = require('../../config/db/connection');
 
-const Loan = connectionDB.define('loan', {
+const Fee = connectionDB.define('fee', {
     id: {
         type: DataTypes.UUID,
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4,
         allowNull: false
     },
-    creditAmount: {
-        type: DataTypes.DECIMAL(10, 2),
-        allowNull: false
-    },
-    interestRate: {
-        type: DataTypes.DECIMAL(10, 2),
-        allowNull: false
-    },
-    numberFees: {
-        type: DataTypes.INTEGER(10),
-        allowNull: false
-    },
     feeAmount: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false
     },
-    modality: {
-        type: DataTypes.STRING,
+    numberFee: {
+        type: DataTypes.INTEGER(10),
         allowNull: false
     },
-    loanDate: {
+    feeStatus: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+    feePaymentDate: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    customerPaymentDate: {
         type: DataTypes.DATE,
         allowNull: false
     },
@@ -36,13 +32,9 @@ const Loan = connectionDB.define('loan', {
         type: DataTypes.STRING(100),
         allowNull:true
     },
-    deletedStatus: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
-    }
 }, {
-    // timestamps: false,
+    timestamps: false,
     freezeTableName: true,
 });
 
-module.exports = Loan;
+module.exports = Fee;

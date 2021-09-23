@@ -4,7 +4,8 @@ const connectionDB = new Sequelize(process.env.DATABASE_NAME, process.env.DATABA
     host: process.env.DATABASE_HOST,
     dialect: 'mysql',
     port: process.env.DATABASE_PORT,
-    logging: false, // to show in the console some information 
+    logging: false, // to show in the console some information
+    timezone: '-04:00',
 });
 
 module.exports= connectionDB;

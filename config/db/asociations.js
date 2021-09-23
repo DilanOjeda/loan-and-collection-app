@@ -3,7 +3,7 @@ const Loan = require('../../src/models/loan');
 const Customer = require('../../src/models/customer');
 const Role = require('../../src/models/role');
 const Module = require('../../src/models/module');
-const RoleAccessModule = require('../../src/models/role-access-module');
+const Fee = require('../../src/models/fee');
 
 // 1:N add a userId attribute to the Loan table
 User.hasMany(Loan, {foreignKey: 'userId'} );   // =! hasOne
@@ -21,3 +21,5 @@ Role.belongsToMany(Module, {
     through: 'role_access_module',
     foreignKey: 'roleId',
 });
+
+Loan.hasMany(Fee, {foreignKey: 'loanId'})
