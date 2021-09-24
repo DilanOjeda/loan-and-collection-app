@@ -39,7 +39,7 @@ app.use(passport.session());
 app.use('/', require('./src/routes'));
 
 //  Connection to the database
-connectionDB.sync( { force: true} )
+connectionDB.sync( { force: false} )
     .then( () => {
         console.log('Connection has been established successfully.')
     })

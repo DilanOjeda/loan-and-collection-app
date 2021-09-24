@@ -1,14 +1,27 @@
+import axios from 'axios';
 import flatpickr from 'flatpickr';
 import Choices from 'choices.js';
-import { Spanish } from 'flatpickr/dist/l10n/es';
+import {Spanish} from 'flatpickr/dist/l10n/es';
 
-const inputDatesFees = document.getElementById('inputDatesFees');
-if (inputDatesFees) {
-    flatpickr("#inputDatesFees", {
+import {renderMsgModal} from './functions/renderMsgModal';
+const inputFeesDates = document.getElementById('inputFeesDates');
+if (inputFeesDates) {
+    const calendarDatesFees = flatpickr("#inputFeesDates", {
         locale: Spanish,
         mode: "multiple",
         dateFormat: "Y-m-d",
+        // minDate: "today",
         inline: true,
+        onChange: function(selectedDates, dateStr, instance){
+            const inputNumberFees = document.getElementById('inputNumberFees');
+            (selectedDates.length > 0) ? inputNumberFees.value = selectedDates.length : inputNumberFees.value = '';
+            
+            // console.log('selectedDates', selectedDates.length);ç
+            console.log('dateStr', dateStr);
+            // selectedDates.forEach(date => {
+            //     console.log('dates', date.getUTCDate(), date.getMonth()+1);
+            // })
+        }
     });
 }
 
@@ -41,5 +54,27 @@ if (btnIdCalculate) {
             console.log('vacio')
         }
     });
+}
 
+const formIdRegisterLoan = document.getElementById('formIdRegisterLoan');
+if (formIdRegisterLoan) {
+    formIdRegisterLoan.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        console.log('click');
+        const loanFormData = new FormData(event.currentTarget);
+        const loanData = Object.fromEntries(loanFormData);
+        console.log('loanData : ', loanData);
+        try {
+            const url = `${location.origin}/loans`;
+            const response = await axios.post(url, loanData);
+            console.log('response.data', response.data);
+            // const cardAlerts = document.getElementById('cardAlerts');
+            // if (response.data.errors) {
+            //     const errors = response.data.errors;
+            //     return createDivAlerts(errors, cardAlerts);
+        } catch (error) {
+            console.log('ERROR => ', error);
+            renderMsgModal('error', 'Error', `${error.response.status}: ${error.response.statusText}`)
+        }
+    })
 }

@@ -16,10 +16,12 @@ User.belongsTo(Role, {foreignKey: 'roleId'} );
 Module.belongsToMany(Role, { 
     through: 'role_access_module',
     foreignKey: 'moduleId',
+    timestamps: false,
 });
 Role.belongsToMany(Module, {
     through: 'role_access_module',
     foreignKey: 'roleId',
+    timestamps: false,
 });
 
-Loan.hasMany(Fee, {foreignKey: 'loanId'})
+Loan.hasMany(Fee, {foreignKey: 'loanId', onDelete: 'cascade'})

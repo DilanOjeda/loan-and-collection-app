@@ -55,8 +55,8 @@ document.addEventListener('DOMContentLoaded', function () {
              renderMsgModal('success', '¡Cliente Registrado!', response.data.msg, false, 1000); 
              setInterval(() => { location.reload() }, 1000);                
          } catch (error) {
-             console.log('ERROR => ', error);
-             renderMsgModal('error', 'Error', `${error.response.status}: ${error.response.statusText}`)
+            console.log('ERROR => ', error);
+            renderMsgModal('error', 'Error', `${error.response.status}: ${error.response.statusText}`)
          }
      });
  }
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
 }
 
 /**
- * Query to Update a User from DB
+ * Query to Update a Customer from DB
  */
  const formIdUpdateCustomer = document.getElementById('formIdUpdateCustomer');
  if (formIdUpdateCustomer) {

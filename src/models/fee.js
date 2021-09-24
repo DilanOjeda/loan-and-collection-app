@@ -21,7 +21,7 @@ const Fee = connectionDB.define('fee', {
         defaultValue: false
     },
     feePaymentDate: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false
     },
     customerPaymentDate: {

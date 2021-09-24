@@ -45,7 +45,7 @@
                                 </div>
                             </div>
                             <div class="card-body" >
-                                <form class="row g-3 p-3 pt-0">
+                                <form class="row g-3 p-3 pt-0" id="formIdRegisterLoan"> 
                                     <div class="col-md-10">
                                         <label for="selectIdCustomers" class="form-label">Selccionar un Cliente</label>
                                         <select id="selectIdCustomers" name="customerId" class="form-select">
@@ -59,34 +59,34 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label for="inputCreditAmount" class="form-label">Monto del Prestamo</label>
-                                        <input type="number" class="form-control" name="creditAmount" id="inputCreditAmount" placeholder="Monto del prestamo" required>
+                                        <input type="number" class="form-control" name="creditAmount" id="inputCreditAmount" placeholder="Monto del prestamo" value="1000" required>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="inputInterestRate" class="form-label">Interes %</label>
-                                        <input type="number" class="form-control" name="interestRate" id="inputInterestRate" placeholder="Interest del prestamo" required>
+                                        <input type="number" class="form-control" name="interestRate" id="inputInterestRate" placeholder="Interest del prestamo" value="15" required>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="inputNumberFees" class="form-label">Número de Cuotas</label>
-                                        <input type="number" class="form-control" name="numberFees" id="inputNumberFees" placeholder="Número de cutos del prestamo" required>
+                                        <input type="number" class="form-control" name="numberFees" id="inputNumberFees" placeholder="Selecciona días en calendario" value="20" readonly required>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="inputModality" class="form-label">Modalidad de Pago</label>
                                         <select id="inputModality" name="modality" class="form-select" required>
                                             <option value="">Seleccionar...</option>
-                                            <option value="diario">Diario</option>
+                                            <option value="diario"selected>Diario</option>
                                             <option value="semanal">Semanal</option>
                                             <option value="quincenal">Quincenal</option>
                                             <option value="mensual">Mensual</option>
                                         </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="input" class="form-label">Fecha de Emisión</label>
-                                        <input type="number" class="form-control" name="modality" id="input" placeholder="Ingresar número de celular">
+                                        <label for="inputLoanDate" class="form-label">Fecha de Emisión</label>
+                                        <input type="datetime-local" class="form-control" name="loanDate" id="inputLoanDate" placeholder="Ingresar número de celular" value="09-23-2021" required>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="row justify-content-md-center align-self-md-center" >
-                                            <label for="input" class="form-label text-center">Fecha de Cuotas de Pago</label>
-                                            <input  type="date" class="form-control"  name="" id="inputDatesFees" placeholder="Seleccione las fechas...">
+                                            <label for="inputFeesDates" class="form-label text-center">Selecciona Fechas de Cuotas de Pago</label>
+                                            <input  type="datetime-local" class="form-control"  name="feesDates" id="inputFeesDates" placeholder="Seleccione las fechas..." required>
                                         </div>
                                     </div>
 
@@ -98,15 +98,15 @@
                                             
                                             <div class="col-md-4">
                                                 <label for="inputFeeAmount" class="form-label">Valor por Cuota</label>
-                                                <input type="number" class="form-control" name="feeAmount" id="inputFeeAmount" placeholder="Valor por Cuota" disabled required>
+                                                <input type="number" class="form-control" name="feeAmount" id="inputFeeAmount" placeholder="Valor por Cuota" required readonly>
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="inputInterestAmount" class="form-label">Valor por Interes</label>
-                                                <input type="number" class="form-control" name="interestAmount" id="inputInterestAmount" placeholder="Valor por Interes" disabled required>
+                                                <input type="number" class="form-control" name="interestAmount" id="inputInterestAmount" placeholder="Valor por Interes" readonly required>
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="inputTotalAmount" class="form-label">Monto Total</label>
-                                                <input type="number" class="form-control" name="totalAmount" id="inputTotalAmount" placeholder="Monto Total" disabled required>
+                                                <input type="number" class="form-control" name="totalAmount" id="inputTotalAmount" placeholder="Monto Total" readonly required>
                                             </div>
                                         </div>
                                     </div>
@@ -114,7 +114,7 @@
                                     
                                     <div class="col-12 d-flex justify-content-center align-items-center gap-2 btn-group">
                                         <button type="button" class="btn btn-secondary ">Cancelar</button>
-                                        <button type="submit" class="btn btn-primary ">Registrar Prestamo</button>
+                                        <button type="submit" class="btn btn-primary" id="btnIdRegisterLoan">Registrar Prestamo</button>
                                     </div>
 
                                 </form>
