@@ -26,8 +26,15 @@ const validateCustomerCiToUpdate = async (ci, {req}) => {
     }
 }
 
+const validateCustomerId = async (id = '') => {
+    const existCustomerId = await Customer.findByPk(id);
+    if (!existCustomerId) {
+        throw new Error(`El Cliente no existe, seleccioné otro Cliente registrado.`);
+    }
+}
 
 module.exports = {
     validateCustomerCi,
     validateCustomerCiToUpdate,
+    validateCustomerId
 }

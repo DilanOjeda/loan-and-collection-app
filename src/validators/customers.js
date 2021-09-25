@@ -5,7 +5,7 @@ const { validateCustomerCi, validateCustomerCiToUpdate } = require('../helpers/v
 const { validateGender } = require('../helpers/validatorsDbUser');
 
 
-const validateUser = [
+const validateCustomer = [
     check('names')
     .trim()
     .not().isEmpty().withMessage('El campo del nombre no debe ir vacío.').bail()
@@ -21,7 +21,7 @@ const validateUser = [
     .trim()
     .not().isEmpty().withMessage('El campo del número de celular no debe ir vacío.').bail()
     .isLength({min:8, max: 8}).withMessage('El número de celular debe tener 8 digitos o ir vacío.').optional( {checkFalsy : true} ).bail()
-    .isNumeric('El número de celular debe de ser numérico.'),
+    .isNumeric().withMessage('El número de celular debe de ser numérico.'),
     check('gender')
     .trim()
     .not().isEmpty().withMessage('El campo del género no debe ir vacío.').bail()
@@ -50,8 +50,8 @@ let validateUpdateCustomer = [
     .custom(validateCustomerCiToUpdate),
 ];
 
-validateUpdateCustomer = validateUpdateCustomer.concat(validateUser);
-validateCreateCustomer = validateCreateCustomer.concat(validateUser);
+validateUpdateCustomer = validateUpdateCustomer.concat(validateCustomer);
+validateCreateCustomer = validateCreateCustomer.concat(validateCustomer);
 
 module.exports = {
     validateCreateCustomer,

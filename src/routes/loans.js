@@ -1,6 +1,8 @@
 const { Router } = require('express');
 const router = Router();
 
+const {validateLoan} = require('../validators/loans');
+
 const { displayLoansView, 
     displayCreateLoanView,
     createLoan
@@ -10,6 +12,6 @@ router.get('/', displayLoansView);
 
 router.get('/create-loan', displayCreateLoanView);
 
-router.post('/', createLoan);
+router.post('/', validateLoan, createLoan);
 
 module.exports = router;
