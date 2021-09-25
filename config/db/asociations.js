@@ -8,10 +8,11 @@ const Fee = require('../../src/models/fee');
 // 1:N add a userId attribute to the Loan table
 User.hasMany(Loan, {foreignKey: 'userId'} );   // =! hasOne
 // 1:N add a customerId attribute to the Loan table
-Customer.hasMany(Loan, {foreignKey: 'customerId'} );
+Customer.hasMany(Loan, {foreignKey: 'customerId', onDelete: 'cascade'} );
+Loan.belongsTo(Customer, {foreignKey: 'customerId', onDelete: 'cascade'} );
 // 1:N: add a roleId to the User table
+Role.hasMany(User, {foreignKey: 'roleId'} );
 User.belongsTo(Role, {foreignKey: 'roleId'} );
-
 // N:N
 Module.belongsToMany(Role, { 
     through: 'role_access_module',

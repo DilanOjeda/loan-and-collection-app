@@ -36,6 +36,10 @@ const Loan = connectionDB.define('loan', {
         type: DataTypes.STRING(100),
         allowNull:true
     },
+    loanStatus: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
     deletedStatus: {
         type: DataTypes.BOOLEAN,
         defaultValue: false

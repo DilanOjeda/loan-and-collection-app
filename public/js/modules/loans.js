@@ -4,11 +4,35 @@ import flatpickr from 'flatpickr';
 import {Spanish} from 'flatpickr/dist/l10n/es';
 import Choices from 'choices.js';
 
+import {createSimpleDataTable} from './functions/createDataTable';
 import {renderMsgModal} from './functions/renderMsgModal';
 import {createDivAlerts} from './functions/createDivAlerts';
 import {removeAllAlerts} from './functions/removeAlerts';
 
 
+/**
+ * Create a simple date table for Loans
+ */
+ document.addEventListener('DOMContentLoaded', function () {
+    const tableIdLoans = document.querySelector("#tableIdLoans");
+    if(tableIdLoans){
+        createSimpleDataTable(tableIdLoans, 'Clientes');
+        tableIdLoans.addEventListener('click', function(event) {
+            if (event.target.getAttribute('loanId')) {
+                const [btnAction, loanId] = event.target.getAttribute('loanId').split('_');
+                switch (btnAction) {
+                    case 'showCustomer':
+                        break;
+                    case 'updateCustomer':
+                        break;
+                    case 'deleteCustomer':
+                        break;
+                }
+            }
+        });
+    }
+
+});
 /**
  * Create a calendar for selecting fees dates
  */

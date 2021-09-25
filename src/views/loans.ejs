@@ -51,26 +51,42 @@
                                 <table id="tableIdLoans" class="table table-striped">
                                     <thead class="table-dark">
                                         <tr>
-                                            <th># Prest.</th>
-                                            <th>Cliente</th>
+                                            <th>#</th>
                                             <th>Monto Crédito</th>
                                             <th>Interés %</th>
-                                            <th>Monto Total</th>
+                                            <th>Total a Pagar</th>
+                                            <th>Cliente</th>
                                             <th>Estado</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Daniela Fernanda Ortiz Caberera</td>
-                                            <td>15065</td>
-                                            <td>3</td>
-                                            <td>21513</td>
-                                            <td>Pendiente</td>
-                                            <td>VER PAGOS</td>
-                                        </tr>
-
+                                        <% if (loans) { %>
+                                            <% loans.forEach((loan, i) => { %>
+                                                <tr>
+                                                    <th scope="row"> <%= ++i %> </th>
+                                                    <td> <%= loan.creditAmount %> </td>
+                                                    <td> <%= loan.interestRate %> </td>
+                                                    <td> <%= (parseFloat(loan.creditAmount) + ( parseFloat(loan.creditAmount) * (parseFloat(loan.interestRate) /100))).toFixed(2) %> </td>
+                                                    <td> <%= loan.customer.names + ' ' + loan.customer.lastNames %> </td>
+                                                    <td> 
+                                                        <div class="btn-group d-flex justify-content-center align-items-center">
+                                                            <div class="btn-group d-flex justify-content-center align-items-center">
+                                                                <button type="button" class="btn <%= loan.loanStatus? 'btn-outline-success' : 'btn-outline-danger' %> btn-sm"><%= loan.loanStatus? 'Cancelado' : 'Pendiente' %></button>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td> 
+                                                        
+                                                        <div class="btn-group d-flex justify-content-center align-items-center">
+                                                            <button id="<%= loan.id %>" loanId="showLoan_<%= loan.id %>" type="button" class="btn btn-secondary btn-sm " data-bs-toggle="modal" data-bs-target="#loanCardInfo">Ver Pagos</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            <% }) %>
+                                        <% } %>
+                                       
+                                       
                                     </tbody>
                                 </table>
                             </div>

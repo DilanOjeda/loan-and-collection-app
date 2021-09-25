@@ -2,10 +2,32 @@
 const {Loan, Customer, Fee} = require('../models')
 const connectionDB = require('../../config/db/connection');
 
-const displayLoansView = (req, res) => {
-    res.render('loans', {
-        title: 'Prestamos'
-    });
+const displayLoansView = async (req, res) => {
+    try {
+        const loans = await Loan.findAll({
+            include: {
+                model: Customer,
+                attributes: ['names', 'lastNames']
+            },
+        });
+        // const customers = await Customer.findAll({
+        //     include: {
+        //         model: Loan,
+        //         attributes: ['creditAmount'],
+        //     },
+        // });
+        // console.log('customers ====> ', customers)
+        res.render('loans', {
+            title: 'Prestamos',
+            loans
+
+        });
+    } catch (error) {
+        console.log('ERROR => ', error);
+        res.status(500).json({
+            msg: 'Se produjo un error y no se pudo completar su solicitud. Inténtalo de nuevo.'
+        });
+    }
 }
 
 const displayCreateLoanView = async (req, res) => {
@@ -13,7 +35,7 @@ const displayCreateLoanView = async (req, res) => {
         const customers = await Customer.findAll({
             Attributes: ['id', 'names', 'lastNames', 'withCredit'],            
             where: {deletedStatus:false},
-        })
+        });
         res.render('create-loan', {
             title: 'Crear Prestamo',
             customers
