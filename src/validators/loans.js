@@ -26,7 +26,7 @@ const validateLoan = [
     check('modality')
     .trim()
     .not().isEmpty().withMessage('Debe seleccionar una modalidad de pago del prestamo.').bail()
-    .isIn(['daily', 'weekly', 'biweekly', 'monthly']).withMessage('La modalidad de pago del prestamo seleccionado no existe'),
+    .isIn(['Diario', 'Semanal', 'Mensual']).withMessage('La modalidad de pago del prestamo seleccionado no existe'),
     check('loanDate')
     .trim()
     .not().isEmpty().withMessage('Debe seleccionar la fecha de emisión del prestamo.').bail()

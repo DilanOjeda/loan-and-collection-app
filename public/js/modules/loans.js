@@ -3,6 +3,8 @@ import Swal  from 'sweetalert2';
 import flatpickr from 'flatpickr';
 import {Spanish} from 'flatpickr/dist/l10n/es';
 import Choices from 'choices.js';
+import {format, setDay, getDay,} from 'date-fns';
+import es from 'date-fns/locale/es';
 
 import {createSimpleDataTable} from './functions/createDataTable';
 import {renderMsgModal} from './functions/renderMsgModal';
@@ -10,6 +12,8 @@ import {createDivAlerts} from './functions/createDivAlerts';
 import {removeAllAlerts} from './functions/removeAlerts';
 
 
+
+const tbodyIdLoanFees = document.getElementById('tbodyIdLoanFees');
 /**
  * Create a simple date table for Loans
  */
@@ -21,7 +25,8 @@ import {removeAllAlerts} from './functions/removeAlerts';
             if (event.target.getAttribute('loanId')) {
                 const [btnAction, loanId] = event.target.getAttribute('loanId').split('_');
                 switch (btnAction) {
-                    case 'showCustomer':
+                    case 'showLoan':
+                        showOneLoan(loanId);
                         break;
                     case 'updateCustomer':
                         break;
@@ -133,6 +138,56 @@ if (formIdRegisterLoan) {
             }
         }); 
     });
+}
+/**
+ * Query to Get a Customer from the database and show in modal
+ */
+ const showOneLoan = async (loanId) => {
+     try {
+        const databaseDate = new Date('2021-09-27'.replace('-', '/'));
+        const myDate = format(databaseDate, 'EEE, dd-MMM-yyyy', {locale: es});
+
+        console.log('myDate => ', myDate, getDay( new Date(databaseDate) ) )
+
+        tbodyIdLoanFees.innerHTML = '';
+        const url = `${location.origin}/loans/${loanId}`;
+        const response = await axios.get(url);
+        const {customer, fees, ...loan } = response.data.loan;
+        // console.log('LOAN ---> ', fees);
+        if (loan) { 
+            document.getElementById('txtCustomerFullName').innerHTML = `Cliente: ${customer.names} ${customer.lastNames}`;
+            document.getElementById('txtIdLoanCreditAmount').textContent = `Monto prestado: ${loan.creditAmount} Bs.`;
+            document.getElementById('txtIdLoanInterestRate').textContent = `Interés: ${loan.interestRate} %`;
+            document.getElementById('txtIdLoanNumberFees').textContent = `Nro. de cuotas: ${loan.numberFees}`; 
+            document.getElementById('txtIdLoanFeeAmount').textContent = `A pagar x cuota: ${loan.feeAmount} Bs.`;
+
+            document.getElementById('txtIdLoanDate').textContent = `Fecha: ` + format(new Date (loan.loanDate.replace('-', '/')), 'EE, dd-MMM-yyyy', {locale: es});
+            document.getElementById('txtIdLoanModality').textContent = `Modalidad: ${loan.modality}`;
+            document.getElementById('txtIdLoanLoanStatus').innerHTML = `Estado: <span class="badge ${(loan.loanStatus ? 'bg-success' : 'bg-danger')}">${(loan.loanStatus ? 'Cancelado' : 'Pendiente')}</span>`;
+            
+            loadFeesTable(fees);
+        }
+    } catch (error) {
+        console.log('ERROR => ', error);
+        renderMsgModal('error', 'Error', `${error.response.status}: ${error.response.statusText}`);
+    }    
+}
+
+const loadFeesTable = (fees) => {
+    const templateTableFeeRow = document.getElementById('templateTableFeeRow').content;
+    const fragment = document.createDocumentFragment();
+    
+    fees.forEach((fee, i) => {
+        templateTableFeeRow.querySelector('tr').children[0].textContent = fee.numberFee;
+        templateTableFeeRow.querySelector('tr').children[1].textContent = fee.feeAmount;
+        templateTableFeeRow.querySelector('tr').children[2].textContent = format(new Date( fee.feePaymentDate.replace('-', '/') ), 'EEE, dd-MMM-yyyy', {locale: es});
+        templateTableFeeRow.querySelector('tr td span').className ='';
+        templateTableFeeRow.querySelector('tr td span').classList.add('badge', `${fee.feeStatus? 'bg-success' : 'bg-danger'}`);
+        templateTableFeeRow.querySelector('tr td span').textContent = fee.feeStatus? 'Cancelado' : 'Pendiente';
+        const cloneFeeRow =  templateTableFeeRow.cloneNode(true);
+        fragment.appendChild(cloneFeeRow);
+    });
+    tbodyIdLoanFees.appendChild(fragment);
 }
 
 /**

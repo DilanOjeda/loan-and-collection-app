@@ -36,7 +36,7 @@ const getCustomer = async (req, res) => {
     } catch (error) {
         console.log('ERROR => ', error);
         res.json({
-            msg: 'Ocurrió un error al obtener los usurios.'
+            msg: 'Ocurrió un error al obtener los datos del Cliente.'
         });
     }
 }

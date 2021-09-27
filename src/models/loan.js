@@ -29,7 +29,7 @@ const Loan = connectionDB.define('loan', {
         allowNull: false
     },
     loanDate: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false
     },
     detail: {

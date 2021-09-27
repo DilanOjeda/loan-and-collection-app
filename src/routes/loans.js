@@ -5,7 +5,8 @@ const {validateLoan} = require('../validators/loans');
 
 const { displayLoansView, 
     displayCreateLoanView,
-    createLoan
+    createLoan,
+    getLoan
  } = require('../controllers/loans');
 
 router.get('/', displayLoansView);
@@ -13,5 +14,8 @@ router.get('/', displayLoansView);
 router.get('/create-loan', displayCreateLoanView);
 
 router.post('/', validateLoan, createLoan);
+
+router.get('/:id', getLoan);
+
 
 module.exports = router;

@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('txtIdCustomerCi').textContent = customer.ci;
             document.getElementById('txtIdCustomerGnerder').textContent = customer.gender;
             document.getElementById('txtIdCustomerCellPhone').textContent = customer.cellPhone ? customer.cellPhone : '_____________';
-            document.getElementById('txtIdCustomerWithCredit').textContent = customer.withCredit ? 'Con Credito' : 'Sin Credito';
+            document.getElementById('txtIdCustomerWithCredit').textContent = customer.withCredit ? 'Con Prestamo' : 'Sin Prestamo';
             document.getElementById('txtIdCustomerAddress').textContent = customer.address ? customer.address : '_____________';
         }
     } catch (error) {

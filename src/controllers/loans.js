@@ -10,13 +10,6 @@ const displayLoansView = async (req, res) => {
                 attributes: ['names', 'lastNames']
             },
         });
-        // const customers = await Customer.findAll({
-        //     include: {
-        //         model: Loan,
-        //         attributes: ['creditAmount'],
-        //     },
-        // });
-        // console.log('customers ====> ', customers)
         res.render('loans', {
             title: 'Prestamos',
             loans
@@ -33,7 +26,7 @@ const displayLoansView = async (req, res) => {
 const displayCreateLoanView = async (req, res) => {
     try {
         const customers = await Customer.findAll({
-            Attributes: ['id', 'names', 'lastNames', 'withCredit'],            
+            attributes: ['id', 'names', 'lastNames', 'withCredit'],            
             where: {deletedStatus:false},
         });
         res.render('create-loan', {
@@ -58,7 +51,9 @@ const createLoan = async (req, res) => {
             { transaction: t });    
         feesDates.forEach((date, i) => feesList.push({feeAmount, numberFee: ++i, feePaymentDate: date, loanId:loan.id}));
         const fees = await Fee.bulkCreate(feesList, { transaction: t });
-        console.log('loan', loan.id)
+        // console.log('loan', loan.id)
+        await Customer.update({withCredit: true}, {where: {id: customerId}, transaction: t});
+
         await t.commit();
         if (!(loan && fees) ) {
             return res.json({
@@ -79,8 +74,47 @@ const createLoan = async (req, res) => {
         });
     }
 }
+
+const getLoan = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const loan = await Loan.findOne({
+            where: {id:id},
+            // order : [['Fee', 'numberFee', 'DESC']],
+            include:[
+                {
+                    model: Customer,
+                    attributes: ['names', 'lastNames']
+                },
+                {
+                    model: Fee,
+                    as: 'fees',
+                    attributes: ['feeAmount', 'numberFee', 'feeStatus', 'feePaymentDate'],
+                }
+            ],
+            order: [['fees','feePaymentDate']]
+
+        });
+        if (!loan) {
+            return res.json({
+                msg: 'Ocurrió un error al obtener los datos del Prestamo.',
+                loan
+            });
+        }
+        return res.json({
+            msg: 'Los datos del Prestamo fueron obtenidos exitosamente.',
+            loan
+        });
+    } catch (error) {
+        console.log('ERROR => ', error);
+        res.json({
+            msg: 'Ocurrió un error al obtener los datos del Prestamo.'
+        });
+    }
+}
 module.exports = {
     displayLoansView,
     displayCreateLoanView,
-    createLoan
+    createLoan,
+    getLoan
 }
