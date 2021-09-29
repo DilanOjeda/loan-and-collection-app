@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('./partials/head.ejs') %> 
+        <link rel="stylesheet" href="/modules/choices.js/public/assets/styles/choices.min.css">
+    </head>
+    
+    <body class="sb-nav-fixed">
+
+                    <!-- ========   TOP NAVIGATION    ========-->
+                    
+        <%- include('./partials/top-navigation.ejs') %> 
+
+        <div id="layoutSidenav">
+
+                    <!-- ========   RIGHT MENU    ========-->
+            <%- include('./partials/left-menu.ejs') %>
+            
+            <div id="layoutSidenav_content">
+
+                <main>
+                    
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Cobranzas</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="/users/dashboard">Panel de Control</a></li>
+                            <li class="breadcrumb-item active">Cobranzas</li>
+                        </ol>
+                        
+
+                        <div class="row">
+                            
+                        </div>
+
+                        <div class="card mb-5">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="">
+                                    <h5><i class="fas fa-table me-1"></i>Cobranza de Cuotas</h5>
+                                </div>
+                                <div>
+                                      
+                                </div>
+                            </div>
+                            <div class="card-body row p-3 gap-4 justify-content-center align-items-center" >
+                                
+                                    <div class="col-12 col-md-5 col-lg-5" style="max-width: 450px;">
+                                        <label for="selectIdLoans" class="form-label">Buscar Prestamo</label>
+                                        <select id="selectIdLoans" name="" class="form-select" >
+                                            <option value="">Seleccionar un cliente con prestamo...</option>
+                                            <% if (loans) { %>
+                                                <% loans.forEach(loan => { %>
+                                                    <option value="<%= loan.id %>"> <%= `${loan.customer.names} ${loan.customer.lastNames} - ${loan.creditAmount} Bs.` %>  </option>
+                                                <% }) %>
+                                            <% } %>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-12 col-md-7 col-lg-7 row justify-content-center">
+                                        <div class="card" style="max-width: 350px;">
+                                            <div class="card-body">
+                                              <h5 class="card-title" id="txtIdCustomerFullName">Cliente</h5>
+                                              <p class="card-text m-0" id="txtIdCreditAmount">Monto Prestado:</p>
+                                              <p class="card-text m-0" id="txtIdNumberFees">Cuotas:</p>
+                                              <p class="card-text m-0" id="txtIdLoanDate">Fecha del Prestamo:</p>
+                                            </div>
+                                          </div>
+                                    </div>
+
+                                    <div class="col-12 my-2 gap-3 row justify-content-center">
+                                        <div class="col-12 col-md-12 col-lg-8 col-xl-8 p-1 row justify-content-center">
+                                            <h5 class="text-center">Lista cuotas a pagar</h5>
+                                            <div class="wrapper-table-fixed p-1 row justify-content-center">
+                                                <ol class="list-group" id="listIdUnpaidFess" style="max-width: 700px;">
+                                                </ol>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="container col-12 col-md-12 col-lg-4 col-xl-4 justify-content-center">
+                                            <div class="row gap-2 mb-2 justify-content-center text-center">
+                                                <h5>Monto Total</h5>
+                                                <input type="number"  class="form-control" style="max-width: 200px;" id="inputIdTotalFeesAmount" value="0" disabled>
+                                            </div>
+                                            <div class="row gap-2 justify-content-center">
+                                                <button class="btn btn-success" id="btnIdCollectFees" style="max-width: 200px;">Registrar Pago</button>
+                                                
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                <div class="col-12">
+                                    <button class="btn btn-secondary" style="max-width: 250px;">Salir</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                </main>
+                
+                <!-- ========   FOOTER  ======== -->
+                <%- include('./partials/footer.ejs'); -%>
+            </div>      
+        </div>
+
+        <template id="templateUnpaidFeeRow">
+            <!-- <li class="list-group-item d-flex justify-content-between align-items-start"> -->
+            <li class="">
+                <input class="form-check-input me-1 checkboxesFees" value="" type="checkbox" aria-label="...">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold creditAmount"># 1</div>
+                    <p class="m-0 numberFee">250</p> 
+                    <p class="m-0 feePaymentDate">Lun, 21 Sep 2021</p>
+                </div>
+                <span class="badge bg-danger bg-danger">Sin Cancelar</span>
+            </li>
+        </template>
+
+        <%- include('./partials/footer-scripts.ejs') %> 
+        
+    </body>
+</html>

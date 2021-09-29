@@ -20,10 +20,10 @@
                 <main>
                     
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Cobranzas</h1>
+                        <h1 class="mt-4">Prestamos</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="/users/dashboard">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Cobranzas</li>
+                            <li class="breadcrumb-item"><a href="/users/dashboard">Panel de Control</a></li>
+                            <li class="breadcrumb-item active">Prestamos</li>
                         </ol>
                         
 
@@ -31,20 +31,115 @@
                             
                         </div>
 
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="">
+                                    
+                                    <h5><i class="fas fa-table me-1"></i> Lista de Prestamos</h5>
+                                </div>
+                                <div>
+                                    <a href="/collections/collect-fees" >
+                                        <button type="button" class="btn btn-primary">
+                                            <i class="fas fa-plus-circle"></i>
+                                            Cobrar cuotas
+                                        </button>
+                                    </a>
+                                    
+                                </div>
+                            </div>
+                            <div class="card-body" >
+                                <table id="tableIdLoans" class="table table-striped">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Monto Crédito</th>
+                                            <th>Interés %</th>
+                                            <th>Total a Pagar</th>
+                                            <th>Cliente</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
                     </div>
                     
                 </main>
+
+                <!-- Modal -->
+                <div class="modal fade" id="loanModalInfo" tabindex="-1" aria-labelledby="" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="row row-cols-1">
+                                    <h5 class="modal-title text-center" id="">
+                                         Descripción del Prestamo
+                                    </h5>
+                                    <h6 class="modal-title" id="txtCustomerFullName">
+                                   </h6>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row row-cols-2">
+                                    <div>
+                                        <p class="mb-0" id="txtIdLoanCreditAmount">Monto del crédito: 51654</p>
+                                        <p class="mb-0" id="txtIdLoanInterestRate">Interés del crédito: 15 %</p>
+                                        <p class="mb-0" id="txtIdLoanNumberFees">Nro. de cuotas: 5</p>
+                                        <p class="mb-0" id="txtIdLoanFeeAmount">Monto x cuota: 1550</p>
+                                    </div>
+                                    <div>
+                                        <p class="mb-0" id="txtIdLoanDate">Fecha del credito: 2021-09-25</p>
+                                        <p class="mb-0" id="txtIdLoanModality">Modalidad de Pago: Diario</p>
+                                        <p class="mb-0" id="txtIdLoanLoanStatus">Estado del crédito</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="wrapper-table-fixed">
+                                    <table class="table table-striped">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col"># Cuota</th>
+                                            <th scope="col">Total Pagar</th>
+                                            <th scope="col">Fecha Pago</th>
+                                            <th scope="col">Estado</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody id="tbodyIdLoanFees">
+
+                                        </tbody>
+                                      </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
                 <!-- ========   FOOTER  ======== -->
                 <%- include('./partials/footer.ejs'); -%>
 
                 
-
+                
 
             </div>
         </div>
 
-        <%- include('./partials/footer-scripts.ejs') %> 
+        <template id="templateTableFeeRow">
+            <tr>
+                <th scope="row">numberFee</th>
+                <td>feeAmount</td>
+                <td>date</td>
+                <td><span class="">feeStatus</span></td>
+            </tr>
+        </template>
         
+        <%- include('./partials/footer-scripts.ejs') %> 
     </body>
-</html>
+    </html>
+    
+    

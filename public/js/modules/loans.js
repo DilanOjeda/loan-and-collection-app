@@ -2,15 +2,14 @@ import axios from 'axios';
 import Swal  from 'sweetalert2';
 import flatpickr from 'flatpickr';
 import {Spanish} from 'flatpickr/dist/l10n/es';
-import Choices from 'choices.js';
-import {format, setDay, getDay,} from 'date-fns';
+import {format} from 'date-fns';
 import es from 'date-fns/locale/es';
 
 import {createSimpleDataTable} from './functions/createDataTable';
 import {renderMsgModal} from './functions/renderMsgModal';
 import {createDivAlerts} from './functions/createDivAlerts';
 import {removeAllAlerts} from './functions/removeAlerts';
-
+import {createDynamicSelect} from './functions/createDynamicSelect';
 
 
 const tbodyIdLoanFees = document.getElementById('tbodyIdLoanFees');
@@ -27,10 +26,6 @@ const tbodyIdLoanFees = document.getElementById('tbodyIdLoanFees');
                 switch (btnAction) {
                     case 'showLoan':
                         showOneLoan(loanId);
-                        break;
-                    case 'updateCustomer':
-                        break;
-                    case 'deleteCustomer':
                         break;
                 }
             }
@@ -62,12 +57,7 @@ if (inputFeesDates) {
  */
 const selectIdCustomers = document.getElementById('selectIdCustomers');
 if (selectIdCustomers) {
-    const choicesCustomers = new Choices(selectIdCustomers, {
-        loadingText: 'Cargando...',
-        noResultsText: 'No se han encontrado resultados',
-        noChoicesText: 'No hay opciones para elegir',
-        itemSelectText: 'Presione para seleccionar',
-    });
+    createDynamicSelect(selectIdCustomers);
 }
 
 /**
@@ -140,27 +130,20 @@ if (formIdRegisterLoan) {
     });
 }
 /**
- * Query to Get a Customer from the database and show in modal
+ * Query to Get a Loan from the database to show in a modal
  */
  const showOneLoan = async (loanId) => {
      try {
-        const databaseDate = new Date('2021-09-27'.replace('-', '/'));
-        const myDate = format(databaseDate, 'EEE, dd-MMM-yyyy', {locale: es});
-
-        console.log('myDate => ', myDate, getDay( new Date(databaseDate) ) )
-
         tbodyIdLoanFees.innerHTML = '';
         const url = `${location.origin}/loans/${loanId}`;
         const response = await axios.get(url);
         const {customer, fees, ...loan } = response.data.loan;
-        // console.log('LOAN ---> ', fees);
         if (loan) { 
             document.getElementById('txtCustomerFullName').innerHTML = `Cliente: ${customer.names} ${customer.lastNames}`;
             document.getElementById('txtIdLoanCreditAmount').textContent = `Monto prestado: ${loan.creditAmount} Bs.`;
             document.getElementById('txtIdLoanInterestRate').textContent = `Interés: ${loan.interestRate} %`;
             document.getElementById('txtIdLoanNumberFees').textContent = `Nro. de cuotas: ${loan.numberFees}`; 
             document.getElementById('txtIdLoanFeeAmount').textContent = `A pagar x cuota: ${loan.feeAmount} Bs.`;
-
             document.getElementById('txtIdLoanDate').textContent = `Fecha: ` + format(new Date (loan.loanDate.replace('-', '/')), 'EE, dd-MMM-yyyy', {locale: es});
             document.getElementById('txtIdLoanModality').textContent = `Modalidad: ${loan.modality}`;
             document.getElementById('txtIdLoanLoanStatus').innerHTML = `Estado: <span class="badge ${(loan.loanStatus ? 'bg-success' : 'bg-danger')}">${(loan.loanStatus ? 'Cancelado' : 'Pendiente')}</span>`;
@@ -172,6 +155,7 @@ if (formIdRegisterLoan) {
         renderMsgModal('error', 'Error', `${error.response.status}: ${error.response.statusText}`);
     }    
 }
+
 
 const loadFeesTable = (fees) => {
     const templateTableFeeRow = document.getElementById('templateTableFeeRow').content;

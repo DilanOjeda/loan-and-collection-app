@@ -1,4 +1,3 @@
-
 const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
 
@@ -144,7 +143,6 @@ const updateUser = async (req, res) => {
         } else {
             delete userData.password;
         }
-        // const user = await User.update({names, lastNames, ci, username, password, gender, cellPhone, address, img, roleId}, {
         const user = await User.update(userData, {
             where: {id:id}
         });

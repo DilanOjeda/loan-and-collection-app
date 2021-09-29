@@ -80,7 +80,6 @@ const getLoan = async (req, res) => {
         const {id} = req.params;
         const loan = await Loan.findOne({
             where: {id:id},
-            // order : [['Fee', 'numberFee', 'DESC']],
             include:[
                 {
                     model: Customer,
@@ -89,7 +88,7 @@ const getLoan = async (req, res) => {
                 {
                     model: Fee,
                     as: 'fees',
-                    attributes: ['feeAmount', 'numberFee', 'feeStatus', 'feePaymentDate'],
+                    attributes: ['id', 'feeAmount', 'numberFee', 'feeStatus', 'feePaymentDate'],
                 }
             ],
             order: [['fees','feePaymentDate']]

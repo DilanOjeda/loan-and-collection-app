@@ -19,6 +19,9 @@ export const createDataTable = (tableId, usersDataTable, moduleName) =>{
 
 export const createSimpleDataTable = (tableId, moduleName) => {
     const dataTable = new DataTable(tableId, {
+        layout: {
+            top: "{select}{search}",
+        },
         labels: {
             placeholder: "Buscar...",
             perPage: "{select} registros por página",
