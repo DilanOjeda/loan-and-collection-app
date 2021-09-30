@@ -25,4 +25,5 @@ Role.belongsToMany(Module, {
     timestamps: false,
 });
 
-Loan.hasMany(Fee, {foreignKey: 'loanId', onDelete: 'cascade'})
+Loan.hasMany(Fee, {foreignKey: 'loanId', onDelete: 'cascade'});
+Fee.belongsTo(Loan, {foreignKey: 'loanId', onDelete: 'cascade'} );

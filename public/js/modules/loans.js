@@ -23,11 +23,7 @@ const tbodyIdLoanFees = document.getElementById('tbodyIdLoanFees');
         tableIdLoans.addEventListener('click', function(event) {
             if (event.target.getAttribute('loanId')) {
                 const [btnAction, loanId] = event.target.getAttribute('loanId').split('_');
-                switch (btnAction) {
-                    case 'showLoan':
-                        showOneLoan(loanId);
-                        break;
-                }
+                if (btnAction === 'showLoan') showOneLoan(loanId);
             }
         });
     }

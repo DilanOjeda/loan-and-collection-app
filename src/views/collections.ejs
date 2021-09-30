@@ -20,10 +20,10 @@
                 <main>
                     
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Prestamos</h1>
+                        <h1 class="mt-4">Cobranzas</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="/users/dashboard">Panel de Control</a></li>
-                            <li class="breadcrumb-item active">Prestamos</li>
+                            <li class="breadcrumb-item active">Cobranzas</li>
                         </ol>
                         
 
@@ -35,7 +35,7 @@
                             <div class="card-header d-flex justify-content-between">
                                 <div class="">
                                     
-                                    <h5><i class="fas fa-table me-1"></i> Lista de Prestamos</h5>
+                                    <h5><i class="fas fa-table me-1"></i> Lista de Cutoas Pagadas</h5>
                                 </div>
                                 <div>
                                     <a href="/collections/collect-fees" >
@@ -48,20 +48,32 @@
                                 </div>
                             </div>
                             <div class="card-body" >
-                                <table id="tableIdLoans" class="table table-striped">
+                                <table id="tableIdPaidFees" class="table table-striped">
                                     <thead class="table-dark">
                                         <tr>
-                                            <th>#</th>
-                                            <th>Monto Crédito</th>
-                                            <th>Interés %</th>
-                                            <th>Total a Pagar</th>
                                             <th>Cliente</th>
-                                            <th>Estado</th>
-                                            <th>Acciones</th>
+                                            <th>Monto Prestado</th>
+                                            <th>Nº Cuota</th>
+                                            <th>Cancelado</th>
+                                            <th>Fecha Pago</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
+                                        <% for ( let fee of fees ) { %>
+                                            <tr>
+                                                <td> <%= `${fee.loan.customer.names} ${fee.loan.customer.lastNames}` %></td>
+                                                <td> <%= fee.loan.creditAmount %> </td>
+                                                <td> <%= fee.numberFee %> </td>
+                                                <td> 
+                                                    <div class="btn-group d-flex justify-content-center align-items-center">
+                                                        <div class="btn-group d-flex justify-content-center align-items-center">
+                                                            <button type="button" class="btn <%= fee.feeStatus? 'btn-outline-success' : 'btn-outline-danger' %> btn-sm"><%= fee.feeStatus? 'Cancelado' : 'Pendiente' %></button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td> <%= fee.customerPaymentDate %> </td>
+                                            </tr>
+                                        <% } %>
                                     </tbody>
                                 </table>
                             </div>

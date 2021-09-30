@@ -49,9 +49,10 @@ const createLoan = async (req, res) => {
     try {
         const loan = await Loan.create({creditAmount, interestRate, numberFees, feeAmount, modality, loanDate, customerId}, 
             { transaction: t });    
-        feesDates.forEach((date, i) => feesList.push({feeAmount, numberFee: ++i, feePaymentDate: date, loanId:loan.id}));
+
+            feesDates.forEach((date, i) => feesList.push({feeAmount, numberFee: ++i, feePaymentDate: date, loanId:loan.id}));
         const fees = await Fee.bulkCreate(feesList, { transaction: t });
-        // console.log('loan', loan.id)
+
         await Customer.update({withCredit: true}, {where: {id: customerId}, transaction: t});
 
         await t.commit();

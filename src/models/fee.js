@@ -1,5 +1,7 @@
 const {DataTypes} = require('sequelize');
 const connectionDB = require('../../config/db/connection');
+const {format} = require('date-fns');
+const es = require('date-fns/locale/es');
 
 const Fee = connectionDB.define('fee', {
     id: {
@@ -26,7 +28,10 @@ const Fee = connectionDB.define('fee', {
     },
     customerPaymentDate: {
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: false,
+        get: function() {
+            return format(this.getDataValue('customerPaymentDate'), 'EEE, yyyy-MM-dd HH:mm:ss', {locale: es});
+         }
     },
     detail: {
         type: DataTypes.STRING(100),

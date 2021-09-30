@@ -1,5 +1,6 @@
 
 import axios  from 'axios';
+import Swal  from 'sweetalert2';
 import {format} from 'date-fns';
 import es from 'date-fns/locale/es';
 
@@ -7,9 +8,11 @@ import {createSimpleDataTable} from './functions/createDataTable';
 import {createDynamicSelect} from './functions/createDynamicSelect';
 import {renderMsgModal} from './functions/renderMsgModal';
 
-const tbodyIdUnpaidFees = document.getElementById('tbodyIdUnpaidFees');
 const listIdUnpaidFess = document.getElementById('listIdUnpaidFess');
 const inputIdTotalFeesAmount = document.getElementById('inputIdTotalFeesAmount');
+
+let feesChecked = [];
+let totalPaidFees = 0;
 
 /**
  * Make a custom Client select  
@@ -18,21 +21,32 @@ const selectIdLoans = document.getElementById('selectIdLoans');
 if (selectIdLoans) {
    createDynamicSelect(selectIdLoans);
    selectIdLoans.addEventListener('change', function() {
-      const loanId = document.getElementById('selectIdLoans').value;
-      getLoanToCollect(loanId);
+      if (selectIdLoans.value) getLoanToCollect(selectIdLoans.value);
+      else {
+         cleanTxtLoanInfo();
+         listIdUnpaidFess.innerHTML = '';
+      }
       inputIdTotalFeesAmount.value = 0;
+      totalPaidFees = 0;
+      feesChecked = [];
    });
 }
  
 /**
- * Create data table with unpaid fees
+ * Create data table to unpaid fees
  */
 const tableIdUnpaidFees = document.getElementById('tableIdUnpaidFees');
-// console.log('tableIdUnpaidFees', tableIdUnpaidFees)
 if (tableIdUnpaidFees) {
-   createSimpleDataTable(tableIdUnpaidFees, 'Cutoas Sin Pagar');
+   createSimpleDataTable(tableIdUnpaidFees, 'Cuotas Sin Pagar');
 }
 
+/**
+ * Create data table to paid fees
+ */
+ const tableIdPaidFees = document.getElementById('tableIdPaidFees');
+ if (tableIdPaidFees) {
+    createSimpleDataTable(tableIdPaidFees, 'Cuotas Pagadas');
+ }
 /**
  * Load unpaid fees 
  */
@@ -40,16 +54,16 @@ if (listIdUnpaidFess) {
    listIdUnpaidFess.addEventListener('click', function(event) {
       if (event.target.classList.contains('checkboxesFees')) {
          const checkboxesFees = document.querySelectorAll('.checkboxesFees');
-         let totalFeesAmount = 0;
+         totalPaidFees = 0;
+         feesChecked = [];
          checkboxesFees.forEach((checkboxfee, i) => {
             if (checkboxfee.checked) {
                const [feeId, feeAmount] = checkboxfee.value.split('_');
-               totalFeesAmount += parseFloat(feeAmount);
-               // console.log('checkboxfee CHECKED', i, feeId, feeAmount)
+               totalPaidFees += parseFloat(feeAmount);
+               feesChecked.push(feeId);
             }
          });
-         console.log('totalFeesAmount', totalFeesAmount)
-         inputIdTotalFeesAmount.value = totalFeesAmount;
+         inputIdTotalFeesAmount.value = totalPaidFees;
       }
    })
 }
@@ -59,8 +73,41 @@ if (listIdUnpaidFess) {
  */
 const btnIdCollectFees = document.getElementById('btnIdCollectFees');
 if (btnIdCollectFees) {
-   btnIdCollectFees.addEventListener('click', function() {
-      console.log('click on btn')
+   btnIdCollectFees.addEventListener('click', async () => {
+
+      if (!(feesChecked && totalPaidFees && selectIdLoans.value)) return renderMsgModal('warning', false, `Selecciona un prestamo y las cutoas que desea pagar.`);
+      
+      Swal.fire({
+         title: '¿Está seguro de registrar el pago de las cuotas seleccionadas?',
+         text: "¡No podrás revertir esto!",
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonColor: '#3085d6',
+         cancelButtonColor: '#d33',
+         confirmButtonText: 'Si, Registrar pago',
+         cancelButtonText: 'Cancelar'
+     }).then(async (result) => {
+         if (result.isConfirmed) {
+            const paidFeesData = {
+               loanId: selectIdLoans.value,
+               totalPaidFees,
+               fees: feesChecked
+            }
+            try {
+               const url = `${location.origin}/collections/collect-fees`;
+               const response = await axios.post(url, paidFeesData);
+               console.log('res=>', response.data);
+               // const {paidFees} = response.data.paidFees;
+               renderMsgModal('success', '¡Cuotas Pagadas!', response.data.msg, false, 3000);
+               setInterval(() => { location.replace(`${location.origin}/collections`); }, 3000);
+            } catch (error) {
+               console.log('ERROR => ', error);
+               renderMsgModal('error', 'Error', `${error.response.status}: ${error.response.statusText}`);
+            }     
+         }
+     }); 
+      
+      
    });
 }
 
@@ -104,22 +151,10 @@ const loadListUnpaidFees = (fees) => {
    listIdUnpaidFess.appendChild(fragment);
 }
 
-// const loadUnpaidFeesTable = (fees) => {
-//    const templateUnpaidFeeTableRow = document.getElementById('templateUnpaidFeeTableRow').content;
-//    const fragment = document.createDocumentFragment();
-   
-//    fees.forEach((fee, i) => {
-//       if (!fee.feeStatus) {
-//          // templateUnpaidFeeTableRow.querySelector('tr').children[0].textContent = 'ok';
-//          templateUnpaidFeeTableRow.querySelector('tr').children[1].textContent = fee.numberFee;
-//          templateUnpaidFeeTableRow.querySelector('tr').children[2].textContent = fee.feeAmount;
-//          templateUnpaidFeeTableRow.querySelector('tr').children[3].textContent = format(new Date( fee.feePaymentDate.replace('-', '/') ), 'EEE, dd-MMM-yyyy', {locale: es});
-//          templateUnpaidFeeTableRow.querySelector('tr td span').className ='';
-//          templateUnpaidFeeTableRow.querySelector('tr td span').classList.add('badge', `${fee.feeStatus? 'bg-success' : 'bg-danger'}`);
-//          templateUnpaidFeeTableRow.querySelector('tr td span').textContent = fee.feeStatus? 'Cancelado' : 'Pendiente';
-//          const cloneUnpaidFeeRow =  templateUnpaidFeeTableRow.cloneNode(true);
-//          fragment.appendChild(cloneUnpaidFeeRow);
-//       }
-//    });
-//    tbodyIdUnpaidFees.appendChild(fragment);
-// }
+
+const cleanTxtLoanInfo = () => {
+   document.getElementById('txtIdCustomerFullName').textContent = `Cliente`;
+   document.getElementById('txtIdCreditAmount').textContent = `Monto Prestado: `;
+   document.getElementById('txtIdNumberFees').textContent = `Nro. Cuotas: `;
+   document.getElementById('txtIdLoanDate').textContent = `Fecha del Prestamo: `;
+}

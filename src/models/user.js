@@ -56,16 +56,6 @@ const User = connectionDB.define('user', {
         allowNull: false,
         defaultValue: false
     },
-    // createdAt:{
-    //     type: 'TIMESTAMP',
-    //     defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-    //     allowNull: false
-    // },
-    // updatedAt:{
-    //     type: 'TIMESTAMP',
-    //     allowNull: false
-    //     defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
-    // }
 }, {
     timestamps: true,
     freezeTableName: true,
@@ -74,14 +64,6 @@ const User = connectionDB.define('user', {
             const salt = bcrypt.genSaltSync(10);
             user.password = bcrypt.hashSync(user.password, salt);
         },
-        // beforeUpdate(user) {
-        //     console.log('user.password', user.password);
-        //     if (user.password) {
-                
-        //     }
-        //     // const salt = bcrypt.genSaltSync(10);
-        //     // user.password = bcrypt.hashSync(user.password, salt);
-        // }
     }
 });
 
