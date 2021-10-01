@@ -8,7 +8,9 @@ const {
     updateCustomer, 
     deleteCustomer } = require('../controllers/customers');
 const { validateCreateCustomer, validateUpdateCustomer } = require('../validators/customers');
-router.get('/', displayCustomersView);
+const { verifyUserAuthentication } = require('../controllers/auth');
+
+router.get('/', verifyUserAuthentication, displayCustomersView);
 
 router.get('/:id', getCustomer);
 

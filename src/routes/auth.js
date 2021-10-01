@@ -9,6 +9,6 @@ router.get('/login', displayLogin);
 
 router.post('/login', authenticateUser);
 
-router.post('/close-session', closeSession);
+router.get('/close-session', closeSession);
 
 module.exports = router;

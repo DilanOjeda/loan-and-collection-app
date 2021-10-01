@@ -13,11 +13,11 @@ const {
     deleteUser,
     enableOrDisableUser } = require('../controllers/users');
 const { validateCreateUser, validateUpdateUser } = require('../validators/users');
-
+const { verifyUserAuthentication } = require('../controllers/auth');
 // Display components
-router.get('/dashboard', displayDashboardView);
+router.get('/dashboard', verifyUserAuthentication, displayDashboardView);
 router.get('/signup', displaySignUpView);
-router.get('/admin', displayUsersView);
+router.get('/admin', verifyUserAuthentication, displayUsersView);
 
 // Functionalities
 router.get('/', getUsers);
@@ -31,4 +31,5 @@ router.put('/:id', validateUpdateUser, updateUser);
 router.delete('/:id', deleteUser);
 
 router.put('/enable-user/:id', enableOrDisableUser);
+
 module.exports = router; 

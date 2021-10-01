@@ -7,6 +7,13 @@ Web app to lend and collect money from customer.
 This web application was developed using the following technologies:
 
 * CSS, HTML and JavaScript
-* Libraries: SweetAlert2
-* Webpack
+* BootStrap 5
 * Node.js
+
+This web application has modules like the following:
+
+* Users
+* Customers
+* Collections
+* Loans
+* Reports

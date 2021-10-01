@@ -27,7 +27,7 @@ const User = connectionDB.define('user', {
         allowNull: false
     },
     password: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING(60),
         allowNull: false
     },
     gender: {
@@ -67,4 +67,11 @@ const User = connectionDB.define('user', {
     }
 });
 
+/**
+ * Custom methods
+ */
+User.prototype.verifyPassword = function (password) {
+    console.log('password =>', bcrypt.compareSync( password, this.password ));
+    return bcrypt.compareSync( password, this.password ); //(receive, from this model)
+}
 module.exports = User;

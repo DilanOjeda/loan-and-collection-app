@@ -11,20 +11,34 @@ passport.use( new LocalStrategy(
     },
     async (username, password, done) => {
         try {
-            const user = await User.findOne( {
+            const user = await User.findOne({
+                attributes: ['names', 'lastNames', 'username', 'enabled', 'password'],
                 where: {username}
             });
 
             if (!user) {
+                console.log('not found user account')
                 return(null, false, {
-                    message: `Couldn't find your account` 
+                    error_msg: `Couldn't find your account` 
                 })
+            }
+            if ( !user.enabled ) {
+                console.log('user account is not enabled')
+                return done(null, false, {
+                    error_msg: `El usuario no está habilitado para ingresar al sistema.`
+                });
+            }
+            if ( !user.verifyPassword(password) ) {
+                console.log('user password is not correct')
+                return done(null, false, {
+                    error_msg: `Contraseña incorrecta`
+                });
             }
             return done(null, user)
         } catch (err) {
             console.log('Error => ', err);
             return done(null, false, {
-                message: `Something went wrong! Please try again.`
+                error_msg: `Ocurrió un error. Inteta ingresar de nuevo más tarde.`
             })
         }
     }

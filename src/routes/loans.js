@@ -3,15 +3,17 @@ const router = Router();
 
 const {validateLoan} = require('../validators/loans');
 
-const { displayLoansView, 
+const { 
+    displayLoansView, 
     displayCreateLoanView,
     createLoan,
     getLoan
- } = require('../controllers/loans');
+} = require('../controllers/loans');
+const { verifyUserAuthentication } = require('../controllers/auth');
 
-router.get('/', displayLoansView);
+router.get('/', verifyUserAuthentication, displayLoansView);
 
-router.get('/create-loan', displayCreateLoanView);
+router.get('/create-loan', verifyUserAuthentication, displayCreateLoanView);
 
 router.post('/', validateLoan, createLoan);
 
