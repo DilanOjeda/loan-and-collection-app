@@ -17,10 +17,12 @@ fs.readdirSync(pathRouter).filter((file) => {
     }
 });
 
+router.get('/', (req, res) => {
+    res.render('login')
+});
 
 router.get('*', (req, res) => {
     res.status(404);
-    // res.json({ error: 'Not foundd'});
     res.render('404');
 });
 
