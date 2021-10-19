@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../partials/head.ejs') %> 
+    </head>
+    
+    <body class="sb-nav-fixed">
+
+                    <!-- ========   TOP NAVIGATION    ========-->
+                    
+        <%- include('../partials/top-navigation.ejs') %> 
+
+        <div id="layoutSidenav">
+
+                    <!-- ========   RIGHT MENU    ========-->
+            <%- include('../partials/left-menu.ejs') %> 
+            
+            <div id="layoutSidenav_content">
+
+                <main>
+                    
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Reportes</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="/users/dashboard">Tablero de Control</a></li>
+                            <li class="breadcrumb-item active">Reportes de Detalles del Prestamo</li>
+                        </ol>
+
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="">
+                                    
+                                    <h5><i class="fas fa-table me-1"></i> Lista de Prestamos</h5>
+                                </div>
+                                <div>
+                                    
+                                </div>
+                            </div>
+                            <div class="card-body" >
+                                <table id="tableIdLoanDetailsReport" class="table table-striped">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Cliente</th>
+                                            <th>Monto Prestado</th>
+                                            <th>Interés %</th>
+                                            <th>Total a Pagar</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if (loans) { %>
+                                            <% loans.forEach((loan, i) => { %>
+                                                <tr>
+                                                    <th scope="row"> <%= ++i %> </th>
+                                                    <td> <%= loan.customer.names + ' ' + loan.customer.lastNames %> </td>
+                                                    <td> <%= loan.creditAmount %> </td>
+                                                    <td> <%= loan.interestRate %> </td>
+                                                    <td> <%= (parseFloat(loan.creditAmount) + ( parseFloat(loan.creditAmount) * (parseFloat(loan.interestRate) /100))).toFixed(2) %> </td>
+                                                    <td> 
+                                                        <div class="btn-group d-flex justify-content-center align-items-center">
+                                                            <div class="btn-group d-flex justify-content-center align-items-center">
+                                                                <button type="button" class="btn <%= loan.loanStatus? 'btn-outline-success' : 'btn-outline-danger' %> btn-sm"><%= loan.loanStatus? 'Cancelado' : 'Pendiente' %></button>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td> 
+                                                        
+                                                        <div class="btn-group d-flex justify-content-center align-items-center">
+                                                            <button id="<%= loan.id %>" loanId="downloadLoanDetailsReport_<%= loan.id %>" type="button" class="btn btn-secondary btn-sm ">Descargar</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            <% }) %>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                </main>
+                
+                <!-- ========   FOOTER  ======== -->
+                <%- include('../partials/footer.ejs'); -%>
+
+                
+
+
+            </div>
+        </div>
+
+        <%- include('../partials/footer-scripts.ejs') %> 
+        
+    </body>
+</html>
