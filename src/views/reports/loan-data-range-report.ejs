@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../partials/head.ejs') %> 
+    </head>
+    
+    <body class="sb-nav-fixed">
+
+                    <!-- ========   TOP NAVIGATION    ========-->
+                    
+        <%- include('../partials/top-navigation.ejs') %> 
+
+        <div id="layoutSidenav">
+
+                    <!-- ========   RIGHT MENU    ========-->
+            <%- include('../partials/left-menu.ejs') %> 
+            
+            <div id="layoutSidenav_content">
+
+                <main>
+                    
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Reportes</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="/users/dashboard">Tablero de Control</a></li>
+                            <li class="breadcrumb-item active">Reporte de prestamos acorde a fechas</li>
+                        </ol>
+
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="">
+                                    
+                                    <h5><i class="fas fa-table me-1"></i> Fechas de los prestamos</h5>
+                                </div>
+
+                            </div>
+                            <div class="card-body" >
+                                <form class="" id="formIdLoanDateRangeReport">
+                                
+                                    <div class="modal-body p-4">
+            
+                                        <div class="row g-3" id="">
+                                            <div class="col-md-4">
+                                                <label for="startDate" class="form-label">Fecha de inicio</label>
+                                                <input type="date" class="form-control" name="startDate" required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="finalDate" class="form-label">Fecha final</label>
+                                                <input type="date" class="form-control" name="finalDate" required>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <button type="submit" id="generateLoanDateRangeReport" class="btn btn-secondary float-end">Imprimir</button>
+                                            </div>
+                                        </div>
+            
+                                    </div>
+                                    
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                </main>
+                
+                <!-- ========   FOOTER  ======== -->
+                <%- include('../partials/footer.ejs'); -%>
+
+            </div>
+        </div>
+
+        <%- include('../partials/footer-scripts.ejs') %> 
+        
+    </body>
+</html>

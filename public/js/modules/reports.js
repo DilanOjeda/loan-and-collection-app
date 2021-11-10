@@ -2,10 +2,13 @@ import axios from 'axios';
 
 import {createSimpleDataTable} from './functions/createDataTable';
 import {renderMsgModal} from './functions/renderMsgModal';
+
+
 /**
  * Create a simple date table for Loans Details Reports
  */
- document.addEventListener('DOMContentLoaded', function () {
+
+document.addEventListener('DOMContentLoaded', function () {
     const tableIdLoanDetailsReport = document.querySelector("#tableIdLoanDetailsReport");
     if(tableIdLoanDetailsReport){
         createSimpleDataTable(tableIdLoanDetailsReport, 'Prestamos');
@@ -16,7 +19,6 @@ import {renderMsgModal} from './functions/renderMsgModal';
             }
         });
     }
-
 });
 
 
@@ -36,14 +38,25 @@ const downloadLoanDetailsReport = async (loanId) => {
         const file = new Blob([response.data], { type: "application/pdf" });
         //Build a URL from the file
         const fileURL = URL.createObjectURL(file);
-        
 
         //Open the URL on new Window
         window.open(fileURL);
         
-
     } catch (error) {
         console.log('ERROR => ', error);
         renderMsgModal('error', 'Error', `${error.response.status}: ${error.response.statusText}`);
     }    
 }
+
+/**
+ * Rquest to download a loan details report pdf
+ */
+
+const formIdLoanDateRangeReport = document.getElementById('formIdLoanDateRangeReport');
+console.log('formIdLoanDateRangeReport', formIdLoanDateRangeReport);
+
+formIdLoanDateRangeReport.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formDates = Object.fromEntries(new FormData(event.currentTarget)); 
+
+});

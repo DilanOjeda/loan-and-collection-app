@@ -65,9 +65,25 @@ const generateLoanDetailsReport = async (req, res=response) =>{
         });
     }
 }
+/**
+ * Show loan details view of reports module
+ */
 
+const displayLoansDateRangeReport = async (req, res) => {
+    res.render('reports/loan-data-range-report', {
+        title: 'Reportes'
+    });
+}
+
+//TODO: Create a the function below.
+/**
+ * Generate loans or collections report pdf according  to date range
+ */
+
+// generateLoanOrCollectionsReport
 
 module.exports = {
     displayLoanDetailsReport,
-    generateLoanDetailsReport
+    generateLoanDetailsReport,
+    displayLoansDateRangeReport
 }
